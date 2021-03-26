@@ -2,9 +2,6 @@
     the game deck, including the order, type, color, and number of the
     cards. *)
 
-(** The abstract type of values representing decks *)
-type t
-
 type color =
   | Red
   | Yellow
@@ -26,6 +23,9 @@ type card = {
   color : color option;
   ctype : ctype;
 }
+
+(** The abstract type of values representing decks *)
+type t = card list
 
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)

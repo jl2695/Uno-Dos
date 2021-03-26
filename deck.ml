@@ -48,6 +48,6 @@ let init () =
   let deck = normal_helper [] [ Red; Yellow; Blue; Green ] in
   Random.self_init ();
   deck
-  |> List.map (fun x -> (x, Random.int 76))
+  |> List.map (fun x -> (x, Random.int 69))
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)

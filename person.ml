@@ -1,7 +1,14 @@
 type t = {
-  mutable hand: Deck.card list;
-  name: string;
-  position: int
+  mutable hand : Deck.card list;
+  name : string;
+  position : int;
 }
 
-let draw (person: t) (d: Deck.t) = print_string "yomama"
+exception NoMoreCards
+
+let draw (person : t) (d : Deck.t) =
+  match d with
+  | [] -> raise NoMoreCards
+  | h :: t ->
+      let old = person.hand in
+      person.hand = h :: old
