@@ -9,6 +9,8 @@ type t = {
   position : int;
 }
 
+exception NoMoreCards
+
 (** [draw p d] will mutate the hand field of player [p] by adding the
     top card on the deck [d] to it. *)
 val draw : t -> Deck.t -> unit

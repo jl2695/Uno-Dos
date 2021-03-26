@@ -2,9 +2,9 @@
 # Target: deck.ml.depends, tags: { extension:ml, file:deck.ml, ocaml, ocamldep, quiet }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.ml > deck.ml.depends
 # Target: deck.mli.depends, tags: { extension:mli, file:deck.mli, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends # cached
+/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends
 # Target: deck.cmi, tags: { byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmi deck.mli # cached
+/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmi deck.mli
 # Target: deck.cmx, tags: { compile, extension:cmx, extension:ml, file:deck.cmx, file:deck.ml, implem, native, ocaml, quiet }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt -c -o deck.cmx deck.ml
 # Target: deck.native, tags: { dont_link_with, extension:native, file:deck.native, link, native, ocaml, program, quiet }
