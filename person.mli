@@ -6,7 +6,7 @@
 type t = {
   mutable hand : Deck.card list;
   name : string;
-  position : int;
+  mutable position : int;
 }
 
 exception NoMoreCards
@@ -15,4 +15,6 @@ exception NoMoreCards
     top card on the deck [d] to it. *)
 val draw : t -> Deck.t -> unit
 
-val order_hand : t -> t
+val init : unit -> State.t -> t
+
+(* val order_hand : t -> t *)

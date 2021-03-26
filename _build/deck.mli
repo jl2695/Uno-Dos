@@ -16,6 +16,8 @@ type ctype =
   | Wild
   | DrawFour
 
+exception NoMoreCards
+
 (** The type [card] represents all cards and stores information on the
     type, number, and color of the card itself. *)
 type card = {
@@ -25,8 +27,10 @@ type card = {
 }
 
 (** The abstract type of values representing decks *)
-type t = card list
+type t = card list ref
 
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)
 val init : unit -> t
+
+val remove_card : t -> unit

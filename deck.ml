@@ -18,7 +18,9 @@ type card = {
   ctype : ctype;
 }
 
-type t = card list
+type t = card list ref
+
+exception NoMoreCards
 
 (** Helper function taken from a0 that creates an infix operator that
     makes a list of all integers from i through j inclusive *)
@@ -51,3 +53,7 @@ let init () =
   |> List.map (fun x -> (x, Random.int 69))
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)
+  |> ref
+
+let remove_card (d : t) =
+  match !d with [] -> raise NoMoreCards | h :: t -> d := t

@@ -7,3 +7,5 @@ let main () =
   | num_players -> ()
 
 let () = main ()
+
+(* ocamlbuild -pkgs ANSITerminal main.byte && ./main.byte *)
