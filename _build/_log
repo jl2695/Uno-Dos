@@ -1,12 +1,8 @@
 ### Starting build.
-# Target: deck.ml.depends, tags: { extension:ml, file:deck.ml, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.ml > deck.ml.depends
-# Target: deck.mli.depends, tags: { extension:mli, file:deck.mli, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends
-# Target: deck.cmi, tags: { byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmi deck.mli
-# Target: deck.cmx, tags: { compile, extension:cmx, extension:ml, file:deck.cmx, file:deck.ml, implem, native, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt -c -o deck.cmx deck.ml
-# Target: deck.native, tags: { dont_link_with, extension:native, file:deck.native, link, native, ocaml, program, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt deck.cmx -o deck.native
+# Target: main.ml.depends, tags: { extension:ml, file:main.ml, ocaml, ocamldep, quiet, traverse }
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamldep.opt -modules main.ml > main.ml.depends # cached
+# Target: main.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:main.cmo, file:main.ml, implem, ocaml, quiet, traverse }
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -c -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml -o main.cmo main.ml
+# Target: main.byte, tags: { byte, dont_link_with, extension:byte, file:main.byte, link, ocaml, program, quiet, traverse }
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml unix.cma ANSITerminal.cma main.cmo -o main.byte
 # Compilation successful.
