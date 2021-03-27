@@ -54,6 +54,3 @@ let init () =
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)
   |> ref
-
-let remove_card (d : t) =
-  match !d with [] -> raise NoMoreCards | h :: t -> d := t

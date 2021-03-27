@@ -32,5 +32,3 @@ type t = card list ref
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)
 val init : unit -> t
-
-val remove_card : t -> unit

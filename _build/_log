@@ -1,28 +1,18 @@
 ### Starting build.
-# Target: state.ml.depends, tags: { extension:ml, file:state.ml, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.ml > state.ml.depends
-# Target: state.mli.depends, tags: { extension:mli, file:state.mli, ocaml, ocamldep, quiet }
+# Target: state.mli.depends, tags: { extension:mli, file:state.mli, ocaml, ocamldep, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.mli > state.mli.depends # cached
-# Target: deck.mli.depends, tags: { extension:mli, file:deck.mli, ocaml, ocamldep, quiet }
+# Target: deck.mli.depends, tags: { extension:mli, file:deck.mli, ocaml, ocamldep, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends # cached
-# Target: deck.cmi, tags: { byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet }
+# Target: deck.cmi, tags: { byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmi deck.mli # cached
-# Target: person.mli.depends, tags: { extension:mli, file:person.mli, ocaml, ocamldep, quiet }
+# Target: person.mli.depends, tags: { extension:mli, file:person.mli, ocaml, ocamldep, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules person.mli > person.mli.depends # cached
-# Target: person.cmi, tags: { byte, compile, extension:mli, file:person.mli, interf, ocaml, quiet }
+# Target: person.cmi, tags: { byte, compile, extension:mli, file:person.mli, interf, ocaml, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o person.cmi person.mli # cached
-# Target: state.cmi, tags: { byte, compile, extension:mli, file:state.mli, interf, ocaml, quiet }
+# Target: state.cmi, tags: { byte, compile, extension:mli, file:state.mli, interf, ocaml, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o state.cmi state.mli # cached
-# Target: deck.ml.depends, tags: { extension:ml, file:deck.ml, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.ml > deck.ml.depends # cached
-# Target: deck.cmx, tags: { compile, extension:cmx, extension:ml, file:deck.cmx, file:deck.ml, implem, native, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt -c -o deck.cmx deck.ml # cached
-# Target: person.ml.depends, tags: { extension:ml, file:person.ml, ocaml, ocamldep, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules person.ml > person.ml.depends # cached
-# Target: person.cmx, tags: { compile, extension:cmx, extension:ml, file:person.cmx, file:person.ml, implem, native, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt -c -o person.cmx person.ml # cached
-# Target: state.cmx, tags: { compile, extension:cmx, extension:ml, file:state.cmx, file:state.ml, implem, native, ocaml, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt -c -o state.cmx state.ml
-# Target: state.native, tags: { dont_link_with, extension:native, file:state.native, link, native, ocaml, program, quiet }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlopt.opt deck.cmx person.cmx state.cmx -o state.native
+# Target: state.ml.depends, tags: { extension:ml, file:state.ml, ocaml, ocamldep, quiet, traverse }
+/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.ml > state.ml.depends
+# Target: state.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:state.cmo, file:state.ml, implem, ocaml, quiet, traverse }
+/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o state.cmo state.ml
 # Compilation successful.

@@ -1,6 +1,6 @@
 type t
 
-val init_state : int -> t
+val init_state : int -> string array -> t
 
 val get_people : t -> Person.t array
 
