@@ -18,4 +18,5 @@ let init (d : Deck.t) n =
   let person = { hand = []; name = n; position = 0 } in
   for i = 1 to 7 do
     draw person d
-  done
+  done;
+  person

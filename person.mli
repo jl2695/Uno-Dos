@@ -15,6 +15,6 @@ exception NoMoreCards
     top card on the deck [d] to it. *)
 val draw : t -> Deck.t -> unit
 
-val init : unit -> State.t -> t
+val init : Deck.t -> string -> t
 
 (* val order_hand : t -> t *)
