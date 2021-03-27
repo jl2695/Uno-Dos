@@ -1,6 +1,8 @@
-type t =
+type command =
   | Place of string
   | Draw
+  | Name of string
+  | Begin
 
 exception Empty
 
@@ -17,4 +19,6 @@ let parse str =
     | [] -> raise Empty
     | [ h; t ] when h = "place" -> Place t
     | h :: t when h = "draw" -> Draw
+    | [ h; t ] when h = "name" -> Name t
+    | h :: t when h = "begin" -> Begin
     | h :: t -> raise Malformed
