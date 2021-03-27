@@ -3,17 +3,28 @@ open Person
 open Command
 open Deck
 
-let rec start_turns pos st =
+let string_of_option = function
+  | None -> ""
+  | Some num -> string_of_int num
+
+let rec turns pos st =
+  let people = get_people st in
+  let deck = get_curr_deck st in
+  let pile = get_card_pile st in
+  let deck_length = List.length !deck in
+  let num_players = Array.length people in
+  let next_pos = (pos + 1) mod num_players in
   print_string
     ("It's player "
     ^ string_of_int (pos + 1)
-    ^ "'s turn. Place a card or draw: ");
-  let people = get_people st in
-  let player = people.(pos) in
-  let deck = get_curr_deck st in
+    ^ "'s turn. Place a card or draw: \n");
+  print_endline ("Pile: " ^ string_of_option pile.number);
+  print_string "> ";
   match parse (read_line ()) with
-  | Draw -> draw player deck
-  | Place c -> ()
+  | Draw ->
+      print_endline ("Cards left: " ^ string_of_int deck_length);
+      turns next_pos (draw_st st pos deck)
+  | Place card_index -> turns next_pos (place_st st pos)
   | Name n -> ()
   | Begin -> failwith ""
 
@@ -34,7 +45,7 @@ let rec play_game st =
     print_string ((get_people st).(i).name ^ "\n");
     print hand
   done;
-  start_turns 0 st
+  turns 0 st
 
 let rec transfer_names name_lst = Array.of_list name_lst
 
@@ -59,4 +70,5 @@ let main () =
 
 let () = main ()
 
+(* Run using the following line below *)
 (* ocamlbuild -pkgs ANSITerminal main.byte && ./main.byte *)

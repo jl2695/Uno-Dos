@@ -18,7 +18,7 @@ let parse str =
     match spaces_removed with
     | [] -> raise Empty
     | [ h; t ] when h = "place" -> Place t
-    | h :: t when h = "draw" -> Draw
+    | [ h ] when h = "draw" -> Draw
     | [ h; t ] when h = "name" -> Name t
     | h :: t when h = "begin" -> Begin
     | h :: t -> raise Malformed
