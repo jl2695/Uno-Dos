@@ -27,10 +27,8 @@ type card = {
 }
 
 (** The abstract type of values representing decks *)
-type t = card list ref
+type t = card list
 
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)
 val init : unit -> t
-
-val remove_card : t -> unit
