@@ -16,7 +16,7 @@ let init_state num name_array =
     i_state.people.(i) <-
       Person.init i_state.curr_deck name_array.(i) (i + 1);
     i_state.curr_deck <-
-      (match d with [] -> raise NoMoreCards | h :: t -> t)
+      (match !d with [] -> raise NoMoreCards | h :: t -> ref t)
   done;
   i_state
 

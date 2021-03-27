@@ -27,7 +27,7 @@ type card = {
 }
 
 (** The abstract type of values representing decks *)
-type t = card list
+type t = card list ref
 
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)

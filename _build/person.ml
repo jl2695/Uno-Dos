@@ -7,7 +7,7 @@ type t = {
 exception NoMoreCards
 
 let draw (person : t) (d : Deck.t) =
-  match d with
+  match !d with
   | [] -> raise NoMoreCards
   | h :: t ->
       let old = person.hand in
@@ -16,6 +16,7 @@ let draw (person : t) (d : Deck.t) =
 let init (d : Deck.t) n pos =
   let person = { hand = []; name = n; position = pos } in
   for i = 1 to 7 do
-    draw person d
+    draw person d;
+    match !d with [] -> raise NoMoreCards | h :: t -> d := t
   done;
   person

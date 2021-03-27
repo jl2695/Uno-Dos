@@ -12,9 +12,6 @@ open State
 
    let _ = run_test_tt_main suite *)
 
-let hand =
-  (get_people (init_state 3 [| "James"; "Aki"; "Alden" |])).(0).hand
-
 let rec print () hnd =
   match hnd with
   | [] -> print_string "no more"
@@ -25,7 +22,9 @@ let rec print () hnd =
           print () t
       | None -> print_string "yo mama" )
 
-let print_main () = print () hand
+let print_main () =
+  print ()
+    (get_people (init_state 3 [| "James"; "Aki"; "Alden" |])).(1).hand
 
 let rec print2 () =
   print_string

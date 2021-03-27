@@ -1,6 +1,6 @@
 ### Starting build.
 # Target: state.mli.depends, tags: { extension:mli, file:state.mli, ocaml, ocamldep, quiet, traverse }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.mli > state.mli.depends
+/home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.mli > state.mli.depends # cached
 # Target: deck.mli.depends, tags: { extension:mli, file:deck.mli, ocaml, ocamldep, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends # cached
 # Target: deck.cmi, tags: { byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet, traverse }
@@ -10,7 +10,7 @@
 # Target: person.cmi, tags: { byte, compile, extension:mli, file:person.mli, interf, ocaml, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o person.cmi person.mli # cached
 # Target: state.cmi, tags: { byte, compile, extension:mli, file:state.mli, interf, ocaml, quiet, traverse }
-/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o state.cmi state.mli
+/home/ai239/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o state.cmi state.mli # cached
 # Target: state.ml.depends, tags: { extension:ml, file:state.ml, ocaml, ocamldep, quiet, traverse }
 /home/ai239/.opam/cs3110-2021sp/bin/ocamldep.opt -modules state.ml > state.ml.depends
 # Target: state.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:state.cmo, file:state.ml, implem, ocaml, quiet, traverse }

@@ -18,7 +18,7 @@ type card = {
   ctype : ctype;
 }
 
-type t = card list
+type t = card list ref
 
 exception NoMoreCards
 
@@ -53,3 +53,4 @@ let init () =
   |> List.map (fun x -> (x, Random.int 69))
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)
+  |> ref
