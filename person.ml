@@ -1,6 +1,6 @@
 type t = {
   mutable hand : Deck.card list;
-  name : string;
+  mutable name : string;
   mutable position : int;
 }
 
