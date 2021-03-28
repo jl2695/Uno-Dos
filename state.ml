@@ -30,16 +30,26 @@ let draw_st st pos d =
   | [] -> raise NoMoreCards
   | h :: t ->
       let old = st.people.(pos).hand in
-      st.people.(pos).hand <- h :: old;
+      st.people.(pos).hand <- old @ [ h ];
       st.curr_deck <- ref t;
       st
 
-let place_st st pos =
+let rec remove_ele n res = function
+  | [] -> res
+  | h :: t ->
+      if n <> 0 then remove_ele (n - 1) (h :: res) t
+      else remove_ele (n - 1) res t
+
+let place_st st pos card_index =
   match st.people.(pos).hand with
   | [] -> raise NoMoreCards
   | h :: t ->
-      st.people.(pos).hand <- t;
-      st.card_pile <- h;
+      let card = List.nth st.people.(pos).hand card_index in
+      let new_hand =
+        List.rev (remove_ele card_index [] st.people.(pos).hand)
+      in
+      st.people.(pos).hand <- new_hand;
+      st.card_pile <- card;
       st
 
 let get_people s = s.people
