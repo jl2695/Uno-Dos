@@ -3,17 +3,34 @@ open Person
 open Command
 open Deck
 
+let string_of_color_option = function
+  | None -> ""
+  | Some Red -> "(R)"
+  | Some Yellow -> "(Y)"
+  | Some Blue -> "(B)"
+  | Some Green -> "(G)"
+
+let string_of_color = function
+  | Red -> "(R)"
+  | Yellow -> "(Y)"
+  | Blue -> "(B)"
+  | Green -> "(G)"
+
 let rec print hand =
   match hand with
   | [] -> print_string "\n"
   | h :: t -> (
       match h.number with
-      | Some h ->
-          print_int h;
-          print t
+      | Some n -> (
+          print_int n;
+          match h.color with
+          | Some h ->
+              print_string (string_of_color h);
+              print t
+          | None -> ())
       | None -> ())
 
-let string_of_option = function
+let string_of_int_option = function
   | None -> ""
   | Some num -> string_of_int num
 
@@ -30,14 +47,25 @@ let rec turns pos st =
   (* POSSIBLE SORT CARDS OPTION THEN REPROMPT*)
   print_string (player.name ^ "'s hand: ");
   print player.hand;
-  print_endline ("Pile: " ^ string_of_option pile.number);
+  print_endline
+    ("Pile: "
+    ^ string_of_int_option pile.number
+    ^ string_of_color_option pile.color);
   print_string "> ";
   match parse (read_line ()) with
   | Draw ->
       print_endline ("Cards left: " ^ string_of_int deck_length);
       turns next_pos (draw_st st pos deck)
   | Place card_index ->
-      turns next_pos (place_st st pos (int_of_string card_index))
+      let player_card =
+        List.nth people.(pos).hand (int_of_string card_index)
+      in
+      if
+        pile.number = player_card.number
+        || pile.number = None
+        || pile.color = player_card.color
+      then turns next_pos (place_st st pos (int_of_string card_index))
+      else turns pos st
   | Name n -> ()
   | Begin -> failwith ""
 
