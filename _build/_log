@@ -1,6 +1,6 @@
 ### Starting build.
 # Target: main.ml.depends, tags: { extension:ml, file:main.ml, ocaml, ocamldep, quiet, traverse }
-/home/jl2695/.opam/cs3110-2021sp/bin/ocamldep.opt -modules main.ml > main.ml.depends
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamldep.opt -modules main.ml > main.ml.depends # cached
 # Target: command.mli.depends, tags: { extension:mli, file:command.mli, ocaml, ocamldep, quiet, traverse }
 /home/jl2695/.opam/cs3110-2021sp/bin/ocamldep.opt -modules command.mli > command.mli.depends # cached
 # Target: command.cmi, tags: { byte, compile, extension:mli, file:command.mli, interf, ocaml, quiet, traverse }
@@ -18,7 +18,7 @@
 # Target: state.cmi, tags: { byte, compile, extension:mli, file:state.mli, interf, ocaml, quiet, traverse }
 /home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -c -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml -o state.cmi state.mli # cached
 # Target: main.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:main.cmo, file:main.ml, implem, ocaml, quiet, traverse }
-/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -c -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml -o main.cmo main.ml
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -c -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml -o main.cmo main.ml # cached
 # Target: command.ml.depends, tags: { extension:ml, file:command.ml, ocaml, ocamldep, quiet, traverse }
 /home/jl2695/.opam/cs3110-2021sp/bin/ocamldep.opt -modules command.ml > command.ml.depends # cached
 # Target: command.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:command.cmo, file:command.ml, implem, ocaml, quiet, traverse }
@@ -36,5 +36,5 @@
 # Target: state.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:state.cmo, file:state.ml, implem, ocaml, quiet, traverse }
 /home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -c -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml -o state.cmo state.ml # cached
 # Target: main.byte, tags: { byte, dont_link_with, extension:byte, file:main.byte, link, ocaml, program, quiet, traverse }
-/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml unix.cma ANSITerminal.cma command.cmo deck.cmo person.cmo state.cmo main.cmo -o main.byte
+/home/jl2695/.opam/cs3110-2021sp/bin/ocamlc.opt -I /home/jl2695/.opam/cs3110-2021sp/lib/ANSITerminal -I /home/jl2695/.opam/cs3110-2021sp/lib/bytes -I /home/jl2695/.opam/cs3110-2021sp/lib/ocaml unix.cma ANSITerminal.cma command.cmo deck.cmo person.cmo state.cmo main.cmo -o main.byte # cached
 # Compilation successful.

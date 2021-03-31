@@ -20,3 +20,11 @@ let init (d : Deck.t) n pos =
     match !d with [] -> raise NoMoreCards | h :: t -> d := t
   done;
   person
+
+let compare_cards (c1 : Deck.card) (c2 : Deck.card) =
+  if c1.number = c2.number then 0
+  else if c1.number > c2.number then 1
+  else -1
+
+let sort_hand person =
+  person.hand <- List.sort compare_cards person.hand

@@ -52,6 +52,10 @@ let place_st st pos card_index =
       st.card_pile <- card;
       st
 
+let sort_st st pos =
+  Person.sort_hand st.people.(pos);
+  st
+
 let get_people s = s.people
 
 let get_curr_deck s = s.curr_deck

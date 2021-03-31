@@ -28,7 +28,7 @@ let ( -- ) i j =
   let rec from i j l = if i > j then l else from i (j - 1) (j :: l) in
   from i j []
 
-let ( --- ) i j = (i -- j) @ (i -- j) @ (i -- j) @ (i -- j)
+let ( --- ) i j = (i -- j) @ (i -- j)
 
 let rec normal_color_helper color acc = function
   | [] -> acc

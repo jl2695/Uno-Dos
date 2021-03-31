@@ -3,6 +3,7 @@ type command =
   | Draw
   | Name of string
   | Begin
+  | Sort
 
 exception Empty
 

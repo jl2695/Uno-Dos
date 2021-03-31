@@ -17,4 +17,6 @@ val draw : t -> Deck.t -> unit
 
 val init : Deck.t -> string -> int -> t
 
-(* val order_hand : t -> t *)
+val compare_cards : Deck.card -> Deck.card -> int
+
+val sort_hand : t -> unit
