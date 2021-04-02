@@ -34,6 +34,7 @@ let draw_st st pos d =
       st.curr_deck <- ref t;
       st
 
+(** [remove_ele n res] removes the nth element from res*)
 let rec remove_ele n res = function
   | [] -> res
   | h :: t ->
