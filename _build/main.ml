@@ -83,8 +83,6 @@ let rec turns pos st =
         "That isn't a valid command! Either place or draw a card.\n";
       turns pos st
 
-(* CATCH INDEX OUT OF BOUNDS *)
-
 let rec transfer_names name_lst = Array.of_list name_lst
 
 let rec prompt name_lst =
