@@ -1,0 +1,8 @@
+Installation/Build instructions
+  - To begin the game type “make play”
+Gameplay instructions
+  - Type in player names in the form “name player_name”
+  - Once all the players have been entered type “begin”
+  - The player who is acting on the current turn can either type “draw”, 
+  “place card_index” where card_index is the 0-based index of the card you 
+  want to play according to the official Uno rules, or “sort” to sort your hand.
