@@ -3,6 +3,8 @@ open Person
 open Command
 open Deck
 
+(** [string_of_color_option color_opt] Returns a string of a color
+    option [color_opt].*)
 let string_of_color_option = function
   | None -> ""
   | Some Red -> "(R)"
@@ -10,12 +12,14 @@ let string_of_color_option = function
   | Some Blue -> "(B)"
   | Some Green -> "(G)"
 
+(** [string_of_color color] Returns a string of a color [color].*)
 let string_of_color = function
   | Red -> "(R)"
   | Yellow -> "(Y)"
   | Blue -> "(B)"
   | Green -> "(G)"
 
+(** [print hand] Prints player hand [hand].*)
 let rec print hand =
   match hand with
   | [] -> print_string "\n"
@@ -30,10 +34,16 @@ let rec print hand =
           | None -> ())
       | None -> ())
 
+(** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
   | None -> ""
   | Some num -> string_of_int num
 
+(** [turns pos st] operates the turns of the game by prompting the
+    player in position [pos] to perform an action either "draw", "place
+    card_index", or "sort" their hand. When one of these actions is
+    performed, the game state [st] changes. Place requires that a string
+    for a card index is entered. *)
 let rec turns pos st =
   let people = get_people st in
   let deck = get_curr_deck st in
@@ -72,8 +82,8 @@ let rec turns pos st =
         print_endline "That card index is bigger than your hand size!\n";
       turns pos st
   | Sort -> turns pos (sort_st st pos)
-  | Name n -> ()
-  | Begin -> failwith ""
+  | Name n -> turns pos st
+  | Begin -> turns pos st
   | exception Malformed ->
       print_endline
         "That isn't a valid command! Either place or draw a card.\n";
@@ -85,6 +95,9 @@ let rec turns pos st =
 
 let rec transfer_names name_lst = Array.of_list name_lst
 
+(** [prompt name_lst] prompts the user to input the names of each player
+    then places the player's name into [name_lst]. If the user enters
+    "begin" then the game begins.*)
 let rec prompt name_lst =
   print_string "Enter the next player's name or begin: ";
   match parse (read_line ()) with
@@ -113,10 +126,12 @@ let rec prompt name_lst =
       print_endline "Try again using the format: name player_name\n";
       prompt name_lst
 
+(** [main ()] begins the game. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] "\nWelcome to Uno\n";
   prompt []
 
+(* Executes the game engine. *)
 let () = main ()
 
 (* Run using the following line below *)

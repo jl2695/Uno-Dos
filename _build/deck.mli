@@ -2,12 +2,14 @@
     the game deck, including the order, type, color, and number of the
     cards. *)
 
+(**Represents the color of the uno card.*)
 type color =
   | Red
   | Yellow
   | Blue
   | Green
 
+(**Represents the action the uno card can do.*)
 type ctype =
   | Normal
   | Skip
@@ -16,6 +18,8 @@ type ctype =
   | Wild
   | DrawFour
 
+(**exception to be thrown whne a user attempts to draw from an empty
+   deck.*)
 exception NoMoreCards
 
 (** The type [card] represents all cards and stores information on the
