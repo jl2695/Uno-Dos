@@ -22,5 +22,5 @@ let parse str =
     | [ h ] when h = "draw" -> Draw
     | [ h; t ] when h = "name" -> Name t
     | h :: t when h = "begin" -> Begin
-    | h :: t when h = "sort" -> Sort
+    | [ h ] when h = "sort" -> Sort
     | h :: t -> raise Malformed

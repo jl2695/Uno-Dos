@@ -14,6 +14,10 @@ val get_curr_deck : t -> Deck.t
 (**get the top card of the current pile. *)
 val get_card_pile : t -> Deck.card
 
+(**[get_pos state] gets the position of the next desired player of
+   state.*)
+val get_pos : t -> int
+
 (** [draw_st state player_number deck] draw a card from [deck] and put
     it into the hand of the player at the specified position
     [player_number]*)

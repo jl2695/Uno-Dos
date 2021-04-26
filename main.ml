@@ -66,22 +66,46 @@ let rec turns pos st =
   | Draw ->
       print_endline ("Cards left: " ^ string_of_int deck_length);
       turns next_pos (draw_st st pos deck)
-  | Place card_index ->
-      if int_of_string card_index <= List.length player.hand then (
-        let player_card =
-          List.nth people.(pos).hand (int_of_string card_index)
-        in
-        if
-          pile.number = player_card.number
-          || pile.number = None
-          || pile.color = player_card.color
-        then turns next_pos (place_st st pos (int_of_string card_index))
-        else print_endline "That is an invalid card! Try again.\n";
-        turns pos st)
-      else
-        print_endline "That card index is bigger than your hand size!\n";
-      turns pos st
+  | Place card_index -> (
+      match int_of_string card_index with
+      | idx ->
+          (* Check to see if the card index is valid in the player's
+             hand *)
+          if
+            int_of_string card_index <= List.length player.hand
+            && int_of_string card_index >= 0
+          then (
+            let player_card =
+              List.nth player.hand (int_of_string card_index)
+            in
+            (* If the card has the same number or color as the pile or
+               is uncolored, then place that card. *)
+            if
+              pile.number = player_card.number
+              || pile.number = None
+              || pile.color = player_card.color
+              || pile.ctype = DrawFour || pile.ctype = Wild
+            then
+              let next_st =
+                place_st st pos (int_of_string card_index)
+              in
+              turns (get_pos next_st) next_st
+              (* The card at the card index is invalid and user is
+                 prompted again. *)
+            else print_endline "That is an invalid card! Try again.\n";
+            turns pos st)
+          else
+            (* The initial card index input by the user is invalid. *)
+            print_endline
+              "That card index is invalid! (either bigger than your \
+               hand size or less than 0)\n";
+          turns pos st
+      | exception Failure s ->
+          print_endline
+            "That isn't a valid command! Either place or draw a card.\n";
+          turns pos st)
   | Sort -> turns pos (sort_st st pos)
+  (* Covering all match cases *)
   | Name n -> turns pos st
   | Begin -> turns pos st
   | exception Malformed ->

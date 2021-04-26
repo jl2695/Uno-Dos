@@ -18,7 +18,7 @@ type ctype =
   | Wild
   | DrawFour
 
-(**exception to be thrown whne a user attempts to draw from an empty
+(**exception to be thrown when a user attempts to draw from an empty
    deck.*)
 exception NoMoreCards
 
