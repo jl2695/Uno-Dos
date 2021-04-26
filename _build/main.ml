@@ -6,18 +6,21 @@ open Deck
 (** [string_of_color_option color_opt] Returns a string of a color
     option [color_opt].*)
 let string_of_color_option = function
-  | None -> ""
-  | Some Red -> "(R)"
-  | Some Yellow -> "(Y)"
-  | Some Blue -> "(B)"
-  | Some Green -> "(G)"
+  | None -> [ ANSITerminal.red ]
+  | Some Red -> [ ANSITerminal.red ]
+  | Some Yellow -> [ ANSITerminal.yellow ]
+  | Some Blue -> [ ANSITerminal.blue ]
+  | Some Green -> [ ANSITerminal.green ]
 
 (** [string_of_color color] Returns a string of a color [color].*)
 let string_of_color = function
-  | Red -> "(R)"
-  | Yellow -> "(Y)"
-  | Blue -> "(B)"
-  | Green -> "(G)"
+  | Red -> [ ANSITerminal.red ]
+  | Yellow -> [ ANSITerminal.yellow ]
+  | Blue -> [ ANSITerminal.blue ]
+  | Green -> [ ANSITerminal.green ]
+
+let print_color color str =
+  ANSITerminal.print_string (ANSITerminal.on_white :: color) str
 
 (** [print hand] Prints player hand [hand].*)
 let rec print hand =
@@ -26,10 +29,11 @@ let rec print hand =
   | h :: t -> (
       match h.number with
       | Some n -> (
-          print_int n;
           match h.color with
           | Some h ->
-              print_string (string_of_color h ^ " ");
+              print_color (string_of_color h)
+                (" " ^ string_of_int n ^ " ");
+              print_string " ";
               print t
           | None -> ())
       | None -> ())
@@ -57,11 +61,13 @@ let rec turns pos st =
    ^ "'s turn. Place a card, draw or sort your hand.");
   print_string (player.name ^ "'s hand: ");
   print player.hand;
-  print_endline
-    ("Pile: "
-    ^ string_of_int_option pile.number
-    ^ string_of_color_option pile.color);
-  print_string "> ";
+  print_string "Pile: ";
+  if pile.color <> None then
+    print_color
+      (string_of_color_option pile.color)
+      (" " ^ string_of_int_option pile.number ^ " ")
+  else ();
+  print_string "\n> ";
   match parse (read_line ()) with
   | Draw ->
       print_endline ("Cards left: " ^ string_of_int deck_length);
