@@ -27,16 +27,51 @@ let rec print hand =
   match hand with
   | [] -> print_string "\n"
   | h :: t -> (
-      match h.number with
-      | Some n -> (
+      match h.ctype with
+      | Normal -> (
+          match h.number with
+          | Some n -> (
+              match h.color with
+              | Some col ->
+                  print_color (string_of_color col)
+                    (" " ^ string_of_int n ^ " ");
+                  print_string " ";
+                  print t
+              | None -> ())
+          | None -> ())
+      | Skip -> (
           match h.color with
-          | Some h ->
-              print_color (string_of_color h)
-                (" " ^ string_of_int n ^ " ");
+          | Some col ->
+              print_color (string_of_color col) "Skip";
               print_string " ";
               print t
           | None -> ())
-      | None -> ())
+      | Reverse -> (
+          match h.color with
+          | Some col ->
+              print_color (string_of_color col) "Rev";
+              print_string " ";
+              print t
+          | None -> ())
+      | DrawTwo -> (
+          match h.color with
+          | Some col ->
+              print_color (string_of_color col) " D2 ";
+              print_string " ";
+              print t
+          | None -> ())
+      | DrawFour ->
+          ANSITerminal.print_string
+            [ ANSITerminal.on_white; ANSITerminal.black ]
+            " D4 ";
+          print_string " ";
+          print t
+      | Wild ->
+          ANSITerminal.print_string
+            [ ANSITerminal.on_white; ANSITerminal.black ]
+            "Wild";
+          print_string " ";
+          print t)
 
 (** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
@@ -90,7 +125,8 @@ let rec turns pos st =
               pile.number = player_card.number
               || pile.number = None
               || pile.color = player_card.color
-              || pile.ctype = DrawFour || pile.ctype = Wild
+              || player_card.ctype = DrawFour
+              || player_card.ctype = Wild
             then
               let next_st =
                 place_st st pos (int_of_string card_index)

@@ -95,7 +95,7 @@ let rec repeat' f n deck t_list =
 let add_special deck =
   repeat' special_cards 4
     (repeat special_color 2
-       [ Skip; Reverse; DrawTwo; Wild ]
+       [ Skip; Reverse; DrawTwo ]
        deck
        [ Red; Yellow; Blue; Green ])
     [ DrawFour; Wild ]
