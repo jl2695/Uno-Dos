@@ -8,24 +8,51 @@ type t = {
 exception NoMoreCards
 
 (** Take in arrays of names *)
-let init_state num name_array =
-  let dummy_person = { Person.hand = []; name = ""; position = 0 } in
+let init_state p_num p_name_array ai_num ai_name_array =
+  let dummy_person =
+    {
+      Person.hand = [];
+      name = "";
+      position = 0;
+      ai = false;
+      difficulty = None;
+    }
+  in
   let d = Deck.init () in
   let i_state =
     {
-      people = Array.make num dummy_person;
+      people = Array.make (p_num + ai_num) dummy_person;
       curr_deck = d;
       card_pile = { number = None; color = None; ctype = Normal };
       pos = 0;
     }
   in
-  for i = 0 to num - 1 do
+  for i = 0 to p_num - 1 do
     i_state.people.(i) <-
-      Person.init i_state.curr_deck name_array.(i) (i + 1);
+      Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
     i_state.curr_deck <-
-      (match !d with [] -> raise NoMoreCards | h :: t -> ref t)
+      ( match !d with
+      | [] -> raise NoMoreCards
+      | h :: t ->
+          d := t;
+          d )
+  done;
+  for j = p_num to p_num + ai_num - 1 do
+    i_state.people.(j) <-
+      Person.init i_state.curr_deck
+        ai_name_array.(j - p_num)
+        (p_num + j) true;
+    i_state.curr_deck <-
+      ( match !d with
+      | [] -> raise NoMoreCards
+      | h :: t ->
+          d := t;
+          d )
   done;
   i_state
+
+(** need to implement initializing ais and telling them how to move in
+    main *)
 
 let rec draw_st st pos d n =
   if n > 0 then (
@@ -35,7 +62,7 @@ let rec draw_st st pos d n =
         let old = st.people.(pos).hand in
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
-        draw_st st pos d (n - 1))
+        draw_st st pos d (n - 1) )
   else st
 
 (** [remove_ele n res] removes the nth element from res*)
@@ -90,7 +117,7 @@ let place_st st pos card_index =
           st.people.(pos).hand <- new_hand;
           st.pos <- next_pos;
           st.card_pile <- card;
-          st)
+          st )
 
 let sort_st st pos =
   Person.sort_hand st.people.(pos);

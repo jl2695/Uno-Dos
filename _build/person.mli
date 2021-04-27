@@ -7,6 +7,8 @@ type t = {
   mutable hand : Deck.card list;
   mutable name : string;
   mutable position : int;
+  ai : bool;
+  difficulty : string option;
 }
 
 (** [draw p d] will mutate the hand field of player [p] by adding the
@@ -16,7 +18,7 @@ val draw : t -> Deck.t -> unit
 (** [init deck name player_number] initilize a player. This creates a
     new player with a given name and number and draws the top 7 cards
     from the deck.*)
-val init : Deck.t -> string -> int -> t
+val init : Deck.t -> string -> int -> bool -> t
 
 (** [compare_cards card1 card2] comparison function for sorting cards.*)
 val compare_cards : Deck.card -> Deck.card -> int

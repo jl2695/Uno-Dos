@@ -3,7 +3,7 @@ type t
 
 (** [init_state num_players player_names] create and initial state for a
     game with [num_players] players. *)
-val init_state : int -> string array -> t
+val init_state : int -> string array -> int -> string array -> t
 
 (** get the array of players for the game. *)
 val get_people : t -> Person.t array

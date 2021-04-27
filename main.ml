@@ -35,8 +35,8 @@ let rec print hand =
                 (" " ^ string_of_int n ^ " ");
               print_string " ";
               print t
-          | None -> ())
-      | None -> ())
+          | None -> () )
+      | None -> () )
 
 (** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
@@ -57,8 +57,8 @@ let rec turns pos st =
   let num_players = Array.length people in
   let next_pos = (pos + 1) mod num_players in
   print_endline
-    ("It's " ^ player.name
-   ^ "'s turn. Place a card, draw or sort your hand.");
+    ( "It's " ^ player.name
+    ^ "'s turn. Place a card, draw or sort your hand." );
   print_string (player.name ^ "'s hand: ");
   print player.hand;
   print_string "Pile: ";
@@ -99,7 +99,7 @@ let rec turns pos st =
               (* The card at the card index is invalid and user is
                  prompted again. *)
             else print_endline "That is an invalid card! Try again.\n";
-            turns pos st)
+            turns pos st )
           else
             (* The initial card index input by the user is invalid. *)
             print_endline
@@ -109,7 +109,7 @@ let rec turns pos st =
       | exception Failure s ->
           print_endline
             "That isn't a valid command! Either place or draw a card.\n";
-          turns pos st)
+          turns pos st )
   | Sort -> turns pos (sort_st st pos)
   (* Covering all match cases *)
   | Name n -> turns pos st
@@ -122,6 +122,17 @@ let rec turns pos st =
       print_endline
         "That isn't a valid command! Either place or draw a card.\n";
       turns pos st
+
+let ai_names =
+  [|
+    "Aki (AI)";
+    "James (AI)";
+    "Alden (AI)";
+    "Bob (AI)";
+    "Frank (AI)";
+    "Jenkins (AI)";
+    "Lizzy (AI)";
+  |]
 
 let rec transfer_names name_lst = Array.of_list name_lst
 
@@ -136,7 +147,7 @@ let rec prompt name_lst =
   | Begin ->
       let name_arr = transfer_names (List.rev name_lst) in
       if Array.length name_arr > 0 then
-        turns 0 (init_state (Array.length name_arr) name_arr)
+        turns 0 (init_state (Array.length name_arr) name_arr 2 ai_names)
       else
         print_endline "Enter a player's name first before beginning!\n";
       prompt name_lst
