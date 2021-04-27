@@ -78,6 +78,26 @@ let string_of_int_option = function
   | None -> ""
   | Some num -> string_of_int num
 
+let print_pile pile =
+  match pile.ctype with
+  | Normal ->
+      if pile.color = None && pile.number = None then ()
+      else
+        print_color
+          (string_of_color_option pile.color)
+          (" " ^ string_of_int_option pile.number ^ " ")
+  | Skip -> print_color (string_of_color_option pile.color) "Skip"
+  | Reverse -> print_color (string_of_color_option pile.color) "Rev"
+  | DrawTwo -> print_color (string_of_color_option pile.color) "D2"
+  | DrawFour ->
+      ANSITerminal.print_string
+        [ ANSITerminal.on_white; ANSITerminal.black ]
+        " D4 "
+  | Wild ->
+      ANSITerminal.print_string
+        [ ANSITerminal.on_white; ANSITerminal.black ]
+        "Wild"
+
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
     card_index", or "sort" their hand. When one of these actions is
@@ -97,11 +117,7 @@ let rec turns pos st =
   print_string (player.name ^ "'s hand: ");
   print player.hand;
   print_string "Pile: ";
-  if pile.color <> None then
-    print_color
-      (string_of_color_option pile.color)
-      (" " ^ string_of_int_option pile.number ^ " ")
-  else ();
+  print_pile pile;
   print_string "\n> ";
   match parse (read_line ()) with
   | Draw ->
@@ -122,11 +138,12 @@ let rec turns pos st =
             (* If the card has the same number or color as the pile or
                is uncolored, then place that card. *)
             if
-              pile.number = player_card.number
-              || pile.number = None
-              || pile.color = player_card.color
-              || player_card.ctype = DrawFour
-              || player_card.ctype = Wild
+              (pile.number != None && pile.number = player_card.number)
+              || (pile.color != None && pile.color = player_card.color)
+              || (pile.number = None && pile.color = None)
+              || (player_card.number = None && player_card.color = None)
+              || (pile.ctype = Reverse && player_card.ctype = Reverse)
+              || (pile.ctype = Skip && player_card.ctype = Skip)
             then
               let next_st =
                 place_st st pos (int_of_string card_index)

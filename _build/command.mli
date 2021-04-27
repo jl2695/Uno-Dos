@@ -6,6 +6,12 @@ type command =
   | Begin
   | Sort
 
+type color_command =
+  | Red
+  | Yellow
+  | Blue
+  | Green
+
 (** User did not provide a command*)
 exception Empty
 
@@ -16,3 +22,5 @@ exception Malformed
     then the exception [Empty] will be thrown. If the input is not a
     valid command, [Malformed] will be thrown.*)
 val parse : string -> command
+
+val parse_colors : string -> color_command
