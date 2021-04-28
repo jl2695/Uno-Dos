@@ -127,10 +127,6 @@ let ai_valid_cards st pos =
   let ai = people.(pos) in
   ai_valid_cards_aux ai.hand [] deck pile
 
-(* let rec print_indices hand idx acc = match hand with | [] -> acc | h
-   :: t -> print_indices t (idx + 1) " " ^ string_of_int idx ^ " " ^ acc *)
-
-(* let fst_valid_card_idx valid_cards = match valid_cards with | [] -> *)
 let end_game st pos =
   let people = get_people st in
   let player = people.(pos) in
@@ -172,7 +168,7 @@ let rec turns pos st =
             if
               int_of_string card_index <= List.length player.hand - 1
               && int_of_string card_index >= 0
-            then (
+            then
               let player_card =
                 List.nth player.hand (int_of_string card_index)
               in
@@ -186,8 +182,9 @@ let rec turns pos st =
                 else turns (get_pos next_st) next_st
                 (* The card at the card index is invalid and user is
                    prompted again. *)
-              else print_endline "That is an invalid card! Try again.\n";
-              turns pos st )
+              else (
+                print_endline "That is an invalid card! Try again.\n";
+                turns pos st )
             else (
               (* The initial card index input by the user is invalid. *)
               print_endline
@@ -211,16 +208,17 @@ let rec turns pos st =
         print_endline
           "That isn't a valid command! Either place or draw a card.\n";
         turns pos st )
-  else print_string (player.name ^ "'s hand: \n");
-  print player.hand;
-  print_string "Pile: ";
-  print_pile pile;
-  print_string "\n> ";
-  let valid_cards = ai_valid_cards st pos in
-  if valid_cards = [] then turns next_pos (draw_st st pos deck 1)
-  else
-    let next_st = place_st st pos (List.hd valid_cards) in
-    turns (get_pos next_st) next_st
+  else (
+    print_string (player.name ^ "'s hand: \n");
+    print player.hand;
+    print_string "Pile: ";
+    print_pile pile;
+    print_string "\n> ";
+    let valid_cards = ai_valid_cards st pos in
+    if valid_cards = [] then turns next_pos (draw_st st pos deck 1)
+    else
+      let next_st = place_st st pos (List.hd valid_cards) in
+      turns (get_pos next_st) next_st )
 
 let ai_names =
   [
@@ -260,9 +258,9 @@ let rec prompt name_lst ai_name_lst =
           (init_state (Array.length name_arr) name_arr
              (Array.length ai_name_arr)
              ai_name_arr)
-      else
+      else (
         print_endline "Enter a player's name first before beginning!\n";
-      prompt name_lst ai_name_lst
+        prompt name_lst ai_name_lst )
   | Draw ->
       print_endline "Cannot draw a card before the game starts!\n";
       prompt name_lst ai_name_lst
@@ -273,10 +271,14 @@ let rec prompt name_lst ai_name_lst =
       print_endline "Cannot sort a card before the game starts!\n";
       prompt name_lst ai_name_lst
   | exception Empty ->
-      print_endline "Try again using the format: name player_name\n";
+      print_endline
+        "Try again using the format: name player_name, and AI \
+         number_of_ai\n";
       prompt name_lst ai_name_lst
   | exception Malformed ->
-      print_endline "Try again using the format: name player_name\n";
+      print_endline
+        "Try again using the format: name player_name, and AI \
+         number_of_ai\n";
       prompt name_lst ai_name_lst
 
 (** [main ()] begins the game. *)
