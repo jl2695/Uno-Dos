@@ -2,6 +2,7 @@ type command =
   | Place of string
   | Draw
   | Name of string
+  | AI of int
   | Begin
   | Sort
 
@@ -29,6 +30,7 @@ let parse str =
     | [ h; t ] when h = "name" -> Name t
     | h :: t when h = "begin" -> Begin
     | [ h ] when h = "sort" -> Sort
+    | [ h; t ] when h = "AI" -> AI (int_of_string t)
     | h :: t -> raise Malformed
 
 let parse_colors color =

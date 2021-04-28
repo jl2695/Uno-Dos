@@ -35,7 +35,6 @@ let init_state p_num p_name_array ai_num ai_name_array =
     i_state.people.(i) <-
       Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
     i_state.curr_deck <-
-<<<<<<< HEAD
       ( match !d with
       | [] -> raise NoMoreCards
       | h :: t ->
@@ -53,18 +52,8 @@ let init_state p_num p_name_array ai_num ai_name_array =
       | h :: t ->
           d := t;
           d )
-=======
-      (match !d with
-      | [] -> raise NoMoreCards
-      | h :: t ->
-          d := t;
-          d)
->>>>>>> 4530fa3592cc48abcfbca51ad4ed9bb16b43c585
   done;
   i_state
-
-(** need to implement initializing ais and telling them how to move in
-    main *)
 
 let rec draw_st st pos d n =
   if n > 0 then (
@@ -74,11 +63,7 @@ let rec draw_st st pos d n =
         let old = st.people.(pos).hand in
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
-<<<<<<< HEAD
-        draw_st st pos d (n - 1) )
-=======
-        draw_st st pos st.curr_deck (n - 1))
->>>>>>> 4530fa3592cc48abcfbca51ad4ed9bb16b43c585
+        draw_st st pos st.curr_deck (n - 1) )
   else st
 
 (** [remove_ele n res] removes the nth element from res.*)
@@ -177,13 +162,8 @@ let place_st st pos card_index =
       | Wild ->
           st.people.(pos).hand <- new_hand;
           st.pos <- next_pos;
-<<<<<<< HEAD
-          st.card_pile <- card;
-          st )
-=======
           prompt_color ();
-          enter_color st true)
->>>>>>> 4530fa3592cc48abcfbca51ad4ed9bb16b43c585
+          enter_color st true )
 
 let sort_st st pos =
   Person.sort_hand st.people.(pos);

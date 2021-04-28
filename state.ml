@@ -55,9 +55,6 @@ let init_state p_num p_name_array ai_num ai_name_array =
   done;
   i_state
 
-(** need to implement initializing ais and telling them how to move in
-    main *)
-
 let rec draw_st st pos d n =
   if n > 0 then (
     match !d with

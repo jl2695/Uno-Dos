@@ -3,6 +3,7 @@ type command =
   | Place of string
   | Draw
   | Name of string
+  | AI of int
   | Begin
   | Sort
 
