@@ -241,8 +241,8 @@ let rec sublist lst acc n =
 let rec prompt name_lst ai_name_lst =
   print_string
     "Enter the next player's name or begin. Use the format name \
-     player_name for entering a player's name and AI number_of_ai for \
-     adding AIs: ";
+     player_name for \n\
+     entering a player's name and AI number_of_ai for adding AIs: ";
   match parse (read_line ()) with
   | exception End_of_file -> ()
   | Name name -> prompt (name :: name_lst) ai_name_lst
