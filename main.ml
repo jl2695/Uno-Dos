@@ -37,29 +37,29 @@ let rec print hand =
                     (" " ^ string_of_int n ^ " ");
                   print_string " ";
                   print t
-              | None -> () )
-          | None -> () )
+              | None -> ())
+          | None -> ())
       | Skip -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Skip";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | Reverse -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Rev";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | DrawTwo -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) " D2 ";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | DrawFour ->
           ANSITerminal.print_string
             [ ANSITerminal.on_white; ANSITerminal.black ]
@@ -71,7 +71,7 @@ let rec print hand =
             [ ANSITerminal.on_white; ANSITerminal.black ]
             "Wild";
           print_string " ";
-          print t )
+          print t)
 
 (** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
@@ -88,15 +88,9 @@ let print_pile pile =
           (" " ^ string_of_int_option pile.number ^ " ")
   | Skip -> print_color (string_of_color_option pile.color) "Skip"
   | Reverse -> print_color (string_of_color_option pile.color) "Rev"
-  | DrawTwo -> print_color (string_of_color_option pile.color) "D2"
-  | DrawFour ->
-      ANSITerminal.print_string
-        [ ANSITerminal.on_white; ANSITerminal.black ]
-        " D4 "
-  | Wild ->
-      ANSITerminal.print_string
-        [ ANSITerminal.on_white; ANSITerminal.black ]
-        "Wild"
+  | DrawTwo -> print_color (string_of_color_option pile.color) " D2 "
+  | DrawFour -> print_color (string_of_color_option pile.color) " D4 "
+  | Wild -> print_color (string_of_color_option pile.color) "Wild"
 
 let is_valid_card card deck pile =
   (pile.number != None && pile.number = card.number)
@@ -147,8 +141,8 @@ let rec turns pos st =
   let next_pos = (pos + 1) mod num_players in
   if not player.ai then (
     print_endline
-      ( "It's " ^ player.name
-      ^ "'s turn. Place a card, draw or sort your hand." );
+      ("It's " ^ player.name
+     ^ "'s turn. Place a card, draw or sort your hand.");
     print_string (player.name ^ "'s hand: \n");
     print player.hand;
     (* print_string "\n"; print_endline (print_indices player.hand 0
@@ -184,17 +178,17 @@ let rec turns pos st =
                    prompted again. *)
               else (
                 print_endline "That is an invalid card! Try again.\n";
-                turns pos st )
+                turns pos st)
             else (
               (* The initial card index input by the user is invalid. *)
               print_endline
                 "That card index is invalid! (either bigger than your \
                  hand size or less than 0)\n";
-              turns pos st )
+              turns pos st)
         | exception Failure s ->
             print_endline
               "That isn't a valid command! Either place or draw a card.\n";
-            turns pos st )
+            turns pos st)
     | Sort -> turns pos (sort_st st pos)
     (* Covering all match cases *)
     | AI n -> turns pos st
@@ -207,7 +201,7 @@ let rec turns pos st =
     | exception Empty ->
         print_endline
           "That isn't a valid command! Either place or draw a card.\n";
-        turns pos st )
+        turns pos st)
   else (
     print_string (player.name ^ "'s hand: \n");
     print player.hand;
@@ -218,7 +212,7 @@ let rec turns pos st =
     if valid_cards = [] then turns next_pos (draw_st st pos deck 1)
     else
       let next_st = place_st st pos (List.hd valid_cards) in
-      turns (get_pos next_st) next_st )
+      turns (get_pos next_st) next_st)
 
 let ai_names =
   [
@@ -260,7 +254,7 @@ let rec prompt name_lst ai_name_lst =
              ai_name_arr)
       else (
         print_endline "Enter a player's name first before beginning!\n";
-        prompt name_lst ai_name_lst )
+        prompt name_lst ai_name_lst)
   | Draw ->
       print_endline "Cannot draw a card before the game starts!\n";
       prompt name_lst ai_name_lst
