@@ -1,7 +1,10 @@
 Installation/Build instructions
   - Unzip the source file and then cd into the resulting directory
   - To begin the game type “make play”
-Gameplay instructions
+  - If you run into the error main.byte "No such file or directory" then 
+  delete the main.byte file in the directory, then run make clean, 
+  then run ocamlbuild main.cmo, and then run make play.
+  Gameplay instructions
   - Type in player names in the form “name player_name”
   - Once all the players have been entered type “begin”
   - The player who is acting on the current turn can either type “draw”, 

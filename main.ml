@@ -37,29 +37,29 @@ let rec print hand =
                     (" " ^ string_of_int n ^ " ");
                   print_string " ";
                   print t
-              | None -> () )
-          | None -> () )
+              | None -> ())
+          | None -> ())
       | Skip -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Skip";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | Reverse -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Rev";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | DrawTwo -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) " D2 ";
               print_string " ";
               print t
-          | None -> () )
+          | None -> ())
       | DrawFour ->
           ANSITerminal.print_string
             [ ANSITerminal.on_white; ANSITerminal.black ]
@@ -71,7 +71,7 @@ let rec print hand =
             [ ANSITerminal.on_white; ANSITerminal.black ]
             "Wild";
           print_string " ";
-          print t )
+          print t)
 
 (** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
@@ -105,11 +105,15 @@ let is_valid_card card deck pile =
   || (card.number = None && card.color = None)
   || (pile.ctype = Reverse && card.ctype = Reverse)
   || (pile.ctype = Skip && card.ctype = Skip)
+  || (pile.ctype = DrawTwo && card.ctype = DrawTwo)
+
+let idx = ref 0
 
 let rec ai_valid_cards_aux ai_hand acc deck pile =
-  let idx = ref 0 in
   match ai_hand with
-  | [] -> acc
+  | [] ->
+      idx := 0;
+      acc
   | h :: t ->
       idx := !idx + 1;
       if is_valid_card h deck pile then
@@ -122,6 +126,9 @@ let ai_valid_cards st pos =
   let pile = get_card_pile st in
   let ai = people.(pos) in
   ai_valid_cards_aux ai.hand [] deck pile
+
+(* let rec print_indices hand idx acc = match hand with | [] -> acc | h
+   :: t -> print_indices t (idx + 1) " " ^ string_of_int idx ^ " " ^ acc *)
 
 (* let fst_valid_card_idx valid_cards = match valid_cards with | [] -> *)
 
@@ -140,10 +147,12 @@ let rec turns pos st =
   let next_pos = (pos + 1) mod num_players in
   if not player.ai then (
     print_endline
-      ( "It's " ^ player.name
-      ^ "'s turn. Place a card, draw or sort your hand." );
-    print_string (player.name ^ "'s hand: ");
+      ("It's " ^ player.name
+     ^ "'s turn. Place a card, draw or sort your hand.");
+    print_string (player.name ^ "'s hand: \n");
     print player.hand;
+    (* print_string "\n"; print_endline (print_indices player.hand 0
+       ""); *)
     print_string "Pile: ";
     print_pile pile;
     print_string "\n> ";
@@ -157,7 +166,7 @@ let rec turns pos st =
             (* Check to see if the card index is valid in the player's
                hand *)
             if
-              int_of_string card_index <= List.length player.hand
+              int_of_string card_index <= List.length player.hand - 1
               && int_of_string card_index >= 0
             then (
               let player_card =
@@ -173,7 +182,7 @@ let rec turns pos st =
                 (* The card at the card index is invalid and user is
                    prompted again. *)
               else print_endline "That is an invalid card! Try again.\n";
-              turns pos st )
+              turns pos st)
             else
               (* The initial card index input by the user is invalid. *)
               print_endline
@@ -183,7 +192,7 @@ let rec turns pos st =
         | exception Failure s ->
             print_endline
               "That isn't a valid command! Either place or draw a card.\n";
-            turns pos st )
+            turns pos st)
     | Sort -> turns pos (sort_st st pos)
     (* Covering all match cases *)
     | AI n -> turns pos st
@@ -196,8 +205,8 @@ let rec turns pos st =
     | exception Empty ->
         print_endline
           "That isn't a valid command! Either place or draw a card.\n";
-        turns pos st )
-  else print_string (player.name ^ "'s hand: ");
+        turns pos st)
+  else print_string (player.name ^ "'s hand: \n");
   print player.hand;
   print_string "Pile: ";
   print_pile pile;
