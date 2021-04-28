@@ -38,11 +38,11 @@ let init_state p_num p_name_array ai_num ai_name_array =
     i_state.people.(i) <-
       Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
     i_state.curr_deck <-
-      ( match !d with
+      (match !d with
       | [] -> raise NoMoreCards
       | h :: t ->
           d := t;
-          d )
+          d)
   done;
   for j = p_num to p_num + ai_num - 1 do
     i_state.people.(j) <-
@@ -50,11 +50,11 @@ let init_state p_num p_name_array ai_num ai_name_array =
         ai_name_array.(j - p_num)
         (p_num + j) true;
     i_state.curr_deck <-
-      ( match !d with
+      (match !d with
       | [] -> raise NoMoreCards
       | h :: t ->
           d := t;
-          d )
+          d)
   done;
   i_state
 
@@ -66,7 +66,7 @@ let rec draw_st st pos d n =
         let old = st.people.(pos).hand in
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
-        draw_st st pos st.curr_deck (n - 1) )
+        draw_st st pos st.curr_deck (n - 1))
   else st
 
 (** [remove_ele n res] removes the nth element from res.*)
@@ -97,6 +97,7 @@ let prompt_color () =
     "Choose the next color of play (red, yellow, blue, or green)."
 
 let rec enter_color st wild =
+  prompt_color ();
   print_string "> ";
   match parse_colors (read_line ()) with
   | Red ->
@@ -120,6 +121,34 @@ let rec enter_color st wild =
   | exception Malformed ->
       print_endline "Please enter a color!";
       enter_color st wild
+
+let ai_color color st wild =
+  match parse_colors color with
+  | Red ->
+      if wild then st.card_pile <- red_wild else st.card_pile <- red_d4;
+      st
+  | Blue ->
+      if wild then st.card_pile <- blue_wild
+      else st.card_pile <- blue_d4;
+      st
+  | Yellow ->
+      if wild then st.card_pile <- yellow_wild
+      else st.card_pile <- yellow_d4;
+      st
+  | Green ->
+      if wild then st.card_pile <- green_wild
+      else st.card_pile <- green_d4;
+      st
+
+let rand_choose_color () =
+  Random.self_init ();
+  let num = Random.int 4 in
+  match num with
+  | 0 -> "green"
+  | 1 -> "red"
+  | 2 -> "blue"
+  | 3 -> "yellow"
+  | _ -> "green"
 
 (** [place_st st pos card_index] places the card at [card_index] from
     the player at position [pos] and updates the state [st].*)
@@ -155,8 +184,9 @@ let place_st st pos card_index =
           let new_st = draw_st st next_pos st.curr_deck 4 in
           new_st.people.(pos).hand <- new_hand;
           new_st.pos <- next_pos;
-          prompt_color ();
-          enter_color new_st false
+          if new_st.people.(pos).ai = true then
+            ai_color (rand_choose_color ()) new_st false
+          else enter_color new_st false
       | Reverse ->
           if pos - 1 < 0 then st.pos <- num_players - 1
           else st.pos <- pos - 1;
@@ -166,8 +196,9 @@ let place_st st pos card_index =
       | Wild ->
           st.people.(pos).hand <- new_hand;
           st.pos <- next_pos;
-          prompt_color ();
-          enter_color st true )
+          if st.people.(pos).ai = true then
+            ai_color (rand_choose_color ()) st true
+          else enter_color st true)
 
 let sort_st st pos =
   Person.sort_hand st.people.(pos);

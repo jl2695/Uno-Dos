@@ -105,11 +105,15 @@ let is_valid_card card deck pile =
   || (card.number = None && card.color = None)
   || (pile.ctype = Reverse && card.ctype = Reverse)
   || (pile.ctype = Skip && card.ctype = Skip)
+  || (pile.ctype = DrawTwo && card.ctype = DrawTwo)
+
+let idx = ref 0
 
 let rec ai_valid_cards_aux ai_hand acc deck pile =
-  let idx = ref 0 in
   match ai_hand with
-  | [] -> acc
+  | [] ->
+      idx := 0;
+      acc
   | h :: t ->
       idx := !idx + 1;
       if is_valid_card h deck pile then
@@ -122,6 +126,9 @@ let ai_valid_cards st pos =
   let pile = get_card_pile st in
   let ai = people.(pos) in
   ai_valid_cards_aux ai.hand [] deck pile
+
+(* let rec print_indices hand idx acc = match hand with | [] -> acc | h
+   :: t -> print_indices t (idx + 1) " " ^ string_of_int idx ^ " " ^ acc *)
 
 (* let fst_valid_card_idx valid_cards = match valid_cards with | [] -> *)
 let end_game st pos =
@@ -146,8 +153,10 @@ let rec turns pos st =
     print_endline
       ( "It's " ^ player.name
       ^ "'s turn. Place a card, draw or sort your hand." );
-    print_string (player.name ^ "'s hand: ");
+    print_string (player.name ^ "'s hand: \n");
     print player.hand;
+    (* print_string "\n"; print_endline (print_indices player.hand 0
+       ""); *)
     print_string "Pile: ";
     print_pile pile;
     print_string "\n> ";
@@ -161,7 +170,7 @@ let rec turns pos st =
             (* Check to see if the card index is valid in the player's
                hand *)
             if
-              int_of_string card_index <= List.length player.hand
+              int_of_string card_index <= List.length player.hand - 1
               && int_of_string card_index >= 0
             then (
               let player_card =
@@ -202,7 +211,7 @@ let rec turns pos st =
         print_endline
           "That isn't a valid command! Either place or draw a card.\n";
         turns pos st )
-  else print_string (player.name ^ "'s hand: ");
+  else print_string (player.name ^ "'s hand: \n");
   print player.hand;
   print_string "Pile: ";
   print_pile pile;
@@ -237,8 +246,8 @@ let rec sublist lst acc n =
 let rec prompt name_lst ai_name_lst =
   print_string
     "Enter the next player's name or begin. Use the format name \
-     player_name for entering a player's name and AI number_of_ai for \
-     adding AIs: ";
+     player_name for \n\
+     entering a player's name and AI number_of_ai for adding AIs: ";
   match parse (read_line ()) with
   | exception End_of_file -> ()
   | Name name -> prompt (name :: name_lst) ai_name_lst
