@@ -124,6 +124,10 @@ let ai_valid_cards st pos =
   ai_valid_cards_aux ai.hand [] deck pile
 
 (* let fst_valid_card_idx valid_cards = match valid_cards with | [] -> *)
+let end_game st pos =
+  let people = get_people st in
+  let player = people.(pos) in
+  print_endline (player.name ^ " has won! Congratulations :)))")
 
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
@@ -169,17 +173,18 @@ let rec turns pos st =
                 let next_st =
                   place_st st pos (int_of_string card_index)
                 in
-                turns (get_pos next_st) next_st
+                if get_game_ended next_st then end_game st pos
+                else turns (get_pos next_st) next_st
                 (* The card at the card index is invalid and user is
                    prompted again. *)
               else print_endline "That is an invalid card! Try again.\n";
               turns pos st )
-            else
+            else (
               (* The initial card index input by the user is invalid. *)
               print_endline
                 "That card index is invalid! (either bigger than your \
                  hand size or less than 0)\n";
-            turns pos st
+              turns pos st )
         | exception Failure s ->
             print_endline
               "That isn't a valid command! Either place or draw a card.\n";

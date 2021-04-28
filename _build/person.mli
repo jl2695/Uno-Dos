@@ -7,6 +7,7 @@ type t = {
   mutable hand : Deck.card list;
   mutable name : string;
   mutable position : int;
+  mutable score : int;
   ai : bool;
   difficulty : string option;
 }

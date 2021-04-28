@@ -7,6 +7,7 @@ type t = {
   mutable curr_deck : Deck.t;
   mutable card_pile : Deck.card;
   mutable pos : int;
+  mutable game_ended : bool;
 }
 
 exception NoMoreCards
@@ -18,6 +19,7 @@ let init_state p_num p_name_array ai_num ai_name_array =
       Person.hand = [];
       name = "";
       position = 0;
+      score = 0;
       ai = false;
       difficulty = None;
     }
@@ -29,6 +31,7 @@ let init_state p_num p_name_array ai_num ai_name_array =
       curr_deck = d;
       card_pile = { number = None; color = None; ctype = Normal };
       pos = 0;
+      game_ended = false;
     }
   in
   for i = 0 to p_num - 1 do
@@ -130,6 +133,7 @@ let place_st st pos card_index =
       in
       let num_players = Array.length st.people in
       let next_pos = (pos + 1) mod num_players in
+      if new_hand = [] then st.game_ended <- true;
       match card.ctype with
       | Normal ->
           st.people.(pos).hand <- new_hand;
@@ -176,3 +180,5 @@ let get_pos s = s.pos
 let get_curr_deck s = s.curr_deck
 
 let get_card_pile s = s.card_pile
+
+let get_game_ended s = s.game_ended
