@@ -37,29 +37,29 @@ let rec print hand =
                     (" " ^ string_of_int n ^ " ");
                   print_string " ";
                   print t
-              | None -> ())
-          | None -> ())
+              | None -> () )
+          | None -> () )
       | Skip -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Skip";
               print_string " ";
               print t
-          | None -> ())
+          | None -> () )
       | Reverse -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) "Rev";
               print_string " ";
               print t
-          | None -> ())
+          | None -> () )
       | DrawTwo -> (
           match h.color with
           | Some col ->
               print_color (string_of_color col) " D2 ";
               print_string " ";
               print t
-          | None -> ())
+          | None -> () )
       | DrawFour ->
           ANSITerminal.print_string
             [ ANSITerminal.on_white; ANSITerminal.black ]
@@ -71,7 +71,7 @@ let rec print hand =
             [ ANSITerminal.on_white; ANSITerminal.black ]
             "Wild";
           print_string " ";
-          print t)
+          print t )
 
 (** [string_of_int_option opt] Returns a string of an int option [opt]. *)
 let string_of_int_option = function
@@ -131,6 +131,10 @@ let ai_valid_cards st pos =
    :: t -> print_indices t (idx + 1) " " ^ string_of_int idx ^ " " ^ acc *)
 
 (* let fst_valid_card_idx valid_cards = match valid_cards with | [] -> *)
+let end_game st pos =
+  let people = get_people st in
+  let player = people.(pos) in
+  print_endline (player.name ^ " has won! Congratulations :)))")
 
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
@@ -147,8 +151,8 @@ let rec turns pos st =
   let next_pos = (pos + 1) mod num_players in
   if not player.ai then (
     print_endline
-      ("It's " ^ player.name
-     ^ "'s turn. Place a card, draw or sort your hand.");
+      ( "It's " ^ player.name
+      ^ "'s turn. Place a card, draw or sort your hand." );
     print_string (player.name ^ "'s hand: \n");
     print player.hand;
     (* print_string "\n"; print_endline (print_indices player.hand 0
@@ -178,21 +182,22 @@ let rec turns pos st =
                 let next_st =
                   place_st st pos (int_of_string card_index)
                 in
-                turns (get_pos next_st) next_st
+                if get_game_ended next_st then end_game st pos
+                else turns (get_pos next_st) next_st
                 (* The card at the card index is invalid and user is
                    prompted again. *)
               else print_endline "That is an invalid card! Try again.\n";
-              turns pos st)
-            else
+              turns pos st )
+            else (
               (* The initial card index input by the user is invalid. *)
               print_endline
                 "That card index is invalid! (either bigger than your \
                  hand size or less than 0)\n";
-            turns pos st
+              turns pos st )
         | exception Failure s ->
             print_endline
               "That isn't a valid command! Either place or draw a card.\n";
-            turns pos st)
+            turns pos st )
     | Sort -> turns pos (sort_st st pos)
     (* Covering all match cases *)
     | AI n -> turns pos st
@@ -205,7 +210,7 @@ let rec turns pos st =
     | exception Empty ->
         print_endline
           "That isn't a valid command! Either place or draw a card.\n";
-        turns pos st)
+        turns pos st )
   else print_string (player.name ^ "'s hand: \n");
   print player.hand;
   print_string "Pile: ";

@@ -18,6 +18,10 @@ val get_card_pile : t -> Deck.card
    state.*)
 val get_pos : t -> int
 
+(** [get_game_ended state] returns whether the game has ended (i.e. A
+    player has no cards left. ) *)
+val get_game_ended : t -> bool
+
 (** [draw_st state player_number deck] draw a card from [deck] and put
     it into the hand of the player at the specified position
     [player_number]*)
