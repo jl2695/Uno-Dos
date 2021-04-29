@@ -323,7 +323,7 @@ let rec turns pos st =
   else
     let valid_cards = ai_valid_cards st pos in
     if valid_cards = [] then (
-      print_endline_centered
+      print_endline
         ( player.name ^ " drew from the deck. Cards left: "
         ^ string_of_int deck_length );
       turns next_pos (draw_st st pos deck 1) )
