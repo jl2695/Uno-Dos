@@ -42,7 +42,7 @@ let rec print hand =
       | Skip -> (
           match h.color with
           | Some col ->
-              print_color (string_of_color col) "Skip";
+              print_color (string_of_color col) "Skp";
               print_string " ";
               print t
           | None -> () )
@@ -56,20 +56,20 @@ let rec print hand =
       | DrawTwo -> (
           match h.color with
           | Some col ->
-              print_color (string_of_color col) " D2 ";
+              print_color (string_of_color col) "D2 ";
               print_string " ";
               print t
           | None -> () )
       | DrawFour ->
           ANSITerminal.print_string
             [ ANSITerminal.on_white; ANSITerminal.black ]
-            " D4 ";
+            "D4 ";
           print_string " ";
           print t
       | Wild ->
           ANSITerminal.print_string
             [ ANSITerminal.on_white; ANSITerminal.black ]
-            "Wild";
+            "Wld";
           print_string " ";
           print t )
 
@@ -86,17 +86,11 @@ let print_pile pile =
         print_color
           (string_of_color_option pile.color)
           (" " ^ string_of_int_option pile.number ^ " ")
-  | Skip -> print_color (string_of_color_option pile.color) "Skip"
+  | Skip -> print_color (string_of_color_option pile.color) "Skp"
   | Reverse -> print_color (string_of_color_option pile.color) "Rev"
-  | DrawTwo -> print_color (string_of_color_option pile.color) "D2"
-  | DrawFour ->
-      ANSITerminal.print_string
-        [ ANSITerminal.on_white; ANSITerminal.black ]
-        " D4 "
-  | Wild ->
-      ANSITerminal.print_string
-        [ ANSITerminal.on_white; ANSITerminal.black ]
-        "Wild"
+  | DrawTwo -> print_color (string_of_color_option pile.color) "D2 "
+  | DrawFour -> print_color (string_of_color_option pile.color) "D4 "
+  | Wild -> print_color (string_of_color_option pile.color) "Wld"
 
 let is_valid_card card deck pile =
   (pile.number != None && pile.number = card.number)
@@ -142,6 +136,83 @@ let score_sorted_people st =
   Array.sort compare_custom people;
   people
 
+let print_reds str =
+  ANSITerminal.print_string
+    [ ANSITerminal.on_red; ANSITerminal.yellow ]
+    str
+
+(** [print_cards hand] prints the cards in [hand] with a red outline and
+    no letters or numbers. *)
+let rec print_cards hand =
+  match hand with
+  | [] -> print_string "\n"
+  | h :: t ->
+      print_reds "UNO";
+      print_string " ";
+      print_cards t
+
+let size = ANSITerminal.size ()
+
+let width = fst size
+
+let height = snd size
+
+let erase screen = ANSITerminal.erase screen
+
+let cursor_middle () = ANSITerminal.set_cursor (width / 2) height
+
+let center_cursor str =
+  let len = String.length str in
+  let center = width / 2 in
+  ANSITerminal.set_cursor (center - (len / 2)) height
+
+let print_centered str =
+  center_cursor str;
+  print_string str
+
+let print_endline_centered str =
+  center_cursor str;
+  print_endline str
+
+let empty_pile = { number = None; color = None; ctype = Normal }
+
+(** [print_other_players_hands pos st init_pos] prints the hands of
+    every player except for the player at position [init_pos] *)
+let rec print_other_players_hands pos st init_pos =
+  let people = get_people st in
+  let player = people.(pos) in
+  let num_players = Array.length people in
+  let next_pos = (pos + 1) mod num_players in
+  let hand_description = player.name ^ "'s hand: \n" in
+  if pos <> init_pos then (
+    print_centered hand_description;
+    center_cursor (String.make (4 * List.length player.hand) ' ');
+    print_cards player.hand;
+    print_other_players_hands next_pos st init_pos )
+  else ()
+
+let check_empty_pile st prev_player_pos =
+  let pile = get_card_pile st in
+  let prev_player = (get_people st).(prev_player_pos) in
+  if pile = empty_pile then (
+    center_cursor "Pile:     ";
+    print_string "Pile: ";
+    print_newline () )
+  else if pile.ctype = Skip then (
+    let num_players = Array.length (get_people st) in
+    let prev_prev_player_pos =
+      if prev_player_pos - 1 < 0 then num_players - 1
+      else (prev_player_pos - 1) mod num_players
+    in
+    let prev_prev_player = (get_people st).(prev_prev_player_pos) in
+    print_centered ("Last turn " ^ prev_prev_player.name ^ " placed ");
+    print_pile pile;
+    print_newline () )
+  else (
+    print_centered ("Last turn " ^ prev_player.name ^ " placed ");
+    print_pile pile;
+    print_newline () )
+
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
     card_index", or "sort" their hand. When one of these actions is
@@ -155,20 +226,30 @@ let rec turns pos st =
   let deck_length = List.length !deck in
   let num_players = Array.length people in
   let next_pos = (pos + 1) mod num_players in
+  let prev_pos =
+    if pos - 1 >= 0 then (pos - 1) mod num_players else num_players - 1
+  in
   if not player.ai then (
-    print_endline
-      ( "It's " ^ player.name
-      ^ "'s turn. Place a card, draw or sort your hand." );
-    print_string (player.name ^ "'s hand: \n");
+    print_other_players_hands next_pos st pos;
+    let player_prompt =
+      "It's " ^ player.name
+      ^ "'s turn. Place a card, draw or sort your hand."
+    in
+    print_endline_centered player_prompt;
+    let hand_description = player.name ^ "'s hand: \n" in
+    print_centered hand_description;
+    center_cursor (String.make (4 * List.length player.hand) ' ');
     print player.hand;
     (* print_string "\n"; print_endline (print_indices player.hand 0
        ""); *)
-    print_string "Pile: ";
-    print_pile pile;
-    print_string "\n> ";
+    check_empty_pile st prev_pos;
+    ANSITerminal.set_cursor ((width / 2) - 10) height;
+    print_string "> ";
     match parse (read_line ()) with
     | Draw ->
-        print_endline ("Cards left: " ^ string_of_int deck_length);
+        erase ANSITerminal.Screen;
+        print_endline_centered
+          ("Cards left in the deck: " ^ string_of_int deck_length);
         turns next_pos (draw_st st pos deck 1)
     | Place card_index -> (
         match int_of_string card_index with
@@ -208,16 +289,20 @@ let rec turns pos st =
                 (* The card at the card index is invalid and user is
                    prompted again. *)
               else (
-                print_endline "That is an invalid card! Try again.\n";
+                erase Screen;
+                print_endline_centered
+                  "That is an invalid card! Try again.\n";
                 turns pos st )
             else (
               (* The initial card index input by the user is invalid. *)
-              print_endline
+              erase Screen;
+              print_endline_centered
                 "That card index is invalid! (either bigger than your \
                  hand size or less than 0)\n";
               turns pos st )
         | exception Failure s ->
-            print_endline
+            erase Screen;
+            print_endline_centered
               "That isn't a valid command! Either place or draw a card.\n";
             turns pos st )
     | Sort -> turns pos (sort_st st pos)
@@ -226,19 +311,16 @@ let rec turns pos st =
     | Name n -> turns pos st
     | Begin -> turns pos st
     | exception Malformed ->
-        print_endline
+        erase Screen;
+        print_endline_centered
           "That isn't a valid command! Either place or draw a card.\n";
         turns pos st
     | exception Empty ->
-        print_endline
+        erase Screen;
+        print_endline_centered
           "That isn't a valid command! Either place or draw a card.\n";
         turns pos st )
-  else (
-    print_string (player.name ^ "'s hand: \n");
-    print player.hand;
-    print_string "Pile: ";
-    print_pile pile;
-    print_string "\n> ";
+  else
     let valid_cards = ai_valid_cards st pos in
     if valid_cards = [] then (
       print_endline
@@ -248,7 +330,7 @@ let rec turns pos st =
     else
       let next_st = place_st st pos (List.hd valid_cards) in
       if get_game_ended next_st then end_game st pos
-      else turns (get_pos next_st) next_st )
+      else turns (get_pos next_st) next_st
 
 let ai_names =
   [
