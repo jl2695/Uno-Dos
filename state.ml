@@ -8,12 +8,12 @@ type t = {
   mutable card_pile : Deck.card;
   mutable pos : int;
   mutable game_ended : bool;
+  mutable curr_round : int;
+  mutable total_rounds : int;
 }
 
-exception NoMoreCards
-
 (** Take in arrays of names *)
-let init_state p_num p_name_array ai_num ai_name_array =
+let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
   let dummy_person =
     {
       Person.hand = [];
@@ -32,17 +32,19 @@ let init_state p_num p_name_array ai_num ai_name_array =
       card_pile = { number = None; color = None; ctype = Normal };
       pos = 0;
       game_ended = false;
+      curr_round = 1;
+      total_rounds = tot_rounds;
     }
   in
   for i = 0 to p_num - 1 do
     i_state.people.(i) <-
       Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
     i_state.curr_deck <-
-      (match !d with
+      ( match !d with
       | [] -> raise NoMoreCards
       | h :: t ->
           d := t;
-          d)
+          d )
   done;
   for j = p_num to p_num + ai_num - 1 do
     i_state.people.(j) <-
@@ -50,13 +52,34 @@ let init_state p_num p_name_array ai_num ai_name_array =
         ai_name_array.(j - p_num)
         (p_num + j) true;
     i_state.curr_deck <-
-      (match !d with
-      | [] -> raise NoMoreCards
+      ( match !d with
+      | [] -> raise Deck.NoMoreCards
       | h :: t ->
           d := t;
-          d)
+          d )
   done;
   i_state
+
+let reinitialize_state st next_round winner_pos =
+  let d = Deck.init () in
+  st.curr_round <- next_round;
+  st.people.(winner_pos).score <- st.people.(winner_pos).score + 1;
+  st.curr_deck <- d;
+  for i = 0 to Array.length st.people - 1 do
+    let player = st.people.(i) in
+    player.hand <- [];
+    for i = 1 to 1 do
+      Person.draw player d;
+      st.curr_deck <-
+        ( match !d with
+        | [] -> raise Deck.NoMoreCards
+        | h :: t ->
+            d := t;
+            d )
+    done
+  done;
+  st.card_pile <- { number = None; color = None; ctype = Normal };
+  st
 
 let rec draw_st st pos d n =
   if n > 0 then (
@@ -66,7 +89,7 @@ let rec draw_st st pos d n =
         let old = st.people.(pos).hand in
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
-        draw_st st pos st.curr_deck (n - 1))
+        draw_st st pos st.curr_deck (n - 1) )
   else st
 
 (** [remove_ele n res] removes the nth element from res.*)
@@ -198,13 +221,15 @@ let place_st st pos card_index =
           st.pos <- next_pos;
           if st.people.(pos).ai = true then
             ai_color (rand_choose_color ()) st true
-          else enter_color st true)
+          else enter_color st true )
 
 let sort_st st pos =
   Person.sort_hand st.people.(pos);
   st
 
 let get_people s = s.people
+
+let get_person s i = s.people.(i)
 
 let get_pos s = s.pos
 
@@ -213,3 +238,11 @@ let get_curr_deck s = s.curr_deck
 let get_card_pile s = s.card_pile
 
 let get_game_ended s = s.game_ended
+
+let get_curr_round s = s.curr_round
+
+let set_curr_round s i = s.curr_round <- i
+
+let get_total_rounds s = s.total_rounds
+
+let set_total_rounds s i = s.total_rounds <- i

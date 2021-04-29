@@ -126,82 +126,15 @@ let end_game st pos =
   let player = people.(pos) in
   print_endline (player.name ^ " has won! Congratulations :)))")
 
-let print_reds str =
-  ANSITerminal.print_string
-    [ ANSITerminal.on_red; ANSITerminal.yellow ]
-    str
+let compare_custom p1 p2 =
+  if p1.score > p2.score then 1
+  else if p1.score < p2.score then -1
+  else 0
 
-(** [print_cards hand] prints the cards in [hand] with a red outline and
-    no letters or numbers. *)
-let rec print_cards hand =
-  match hand with
-  | [] -> print_string "\n"
-  | h :: t ->
-      print_reds "UNO";
-      print_string " ";
-      print_cards t
-
-let size = ANSITerminal.size ()
-
-let width = fst size
-
-let height = snd size
-
-let erase screen = ANSITerminal.erase screen
-
-let cursor_middle () = ANSITerminal.set_cursor (width / 2) height
-
-let center_cursor str =
-  let len = String.length str in
-  let center = width / 2 in
-  ANSITerminal.set_cursor (center - (len / 2)) height
-
-let print_centered str =
-  center_cursor str;
-  print_string str
-
-let print_endline_centered str =
-  center_cursor str;
-  print_endline str
-
-let empty_pile = { number = None; color = None; ctype = Normal }
-
-(** [print_other_players_hands pos st init_pos] prints the hands of
-    every player except for the player at position [init_pos] *)
-let rec print_other_players_hands pos st init_pos =
+let score_sorted_people st =
   let people = get_people st in
-  let player = people.(pos) in
-  let num_players = Array.length people in
-  let next_pos = (pos + 1) mod num_players in
-  let hand_description = player.name ^ "'s hand: \n" in
-  if pos <> init_pos then (
-    print_centered hand_description;
-    center_cursor (String.make (4 * List.length player.hand) ' ');
-    print_cards player.hand;
-    print_other_players_hands next_pos st init_pos)
-  else ()
-
-let check_empty_pile st prev_player_pos =
-  let pile = get_card_pile st in
-  let prev_player = (get_people st).(prev_player_pos) in
-  if pile = empty_pile then (
-    center_cursor "Pile:     ";
-    print_string "Pile: ";
-    print_newline ())
-  else if pile.ctype = Skip then (
-    let num_players = Array.length (get_people st) in
-    let prev_prev_player_pos =
-      if prev_player_pos - 1 < 0 then num_players - 1
-      else (prev_player_pos - 1) mod num_players
-    in
-    let prev_prev_player = (get_people st).(prev_prev_player_pos) in
-    print_centered ("Last turn " ^ prev_prev_player.name ^ " placed ");
-    print_pile pile;
-    print_newline ())
-  else (
-    print_centered ("Last turn " ^ prev_player.name ^ " placed ");
-    print_pile pile;
-    print_newline ())
+  Array.sort compare_custom people;
+  people
 
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
@@ -259,9 +192,23 @@ let rec turns pos st =
                 let next_st =
                   place_st st pos (int_of_string card_index)
                 in
-                if get_game_ended next_st then end_game st pos
-                else erase Screen;
-                turns (get_pos next_st) next_st
+                if get_game_ended next_st then (
+                  end_game st pos;
+                  if get_curr_round st < get_total_rounds st then (
+                    print_endline
+                      ( "Press enter to play next round. "
+                      ^ string_of_int (get_curr_round st) );
+                    turns pos
+                      (reinitialize_state st
+                         (get_curr_round st + 1)
+                         pos) )
+                  else
+                    print_endline
+                      ( "End of the game. Congratulations "
+                      ^ (score_sorted_people st).(Array.length people
+                                                  - 1)
+                          .name ) )
+                else turns (get_pos next_st) next_st
                 (* The card at the card index is invalid and user is
                    prompted again. *))
               else (
@@ -298,10 +245,15 @@ let rec turns pos st =
         turns pos st)
   else
     let valid_cards = ai_valid_cards st pos in
-    if valid_cards = [] then turns next_pos (draw_st st pos deck 1)
+    if valid_cards = [] then (
+      print_endline
+        ( player.name ^ " drew from the deck. Cards left: "
+        ^ string_of_int deck_length );
+      turns next_pos (draw_st st pos deck 1) )
     else
       let next_st = place_st st pos (List.hd valid_cards) in
-      turns (get_pos next_st) next_st
+      if get_game_ended next_st then end_game st pos
+      else turns (get_pos next_st) next_st )
 
 let ai_names =
   [
@@ -322,52 +274,54 @@ let rec sublist lst acc n =
   | h :: t -> if n > 0 then sublist t (h :: acc) (n - 1) else acc
 
 (** [prompt name_lst] prompts the user to input the names of each player
-    then places the player's name into [name_lst]. If the user enters
-    "begin" then the game begins.*)
-let rec prompt name_lst ai_name_lst =
-  print_string
-    "Enter the next player's name or begin. Use the format name \
-     player_name for \n\
-     entering a player's name and AI number_of_ai for adding AIs: ";
-  match parse (read_line ()) with
+    then places the player's name into [name_lst]. *)
+let rec prompt name_lst ai_name_lst rounds beg1 beg2 beg3 =
+  if beg3 then
+    let name_arr = transfer_names (List.rev name_lst) in
+    let ai_name_arr = transfer_names ai_name_lst in
+    turns 0
+      (init_state (Array.length name_arr) name_arr
+         (Array.length ai_name_arr)
+         ai_name_arr rounds)
+  else if beg2 then (
+    print_endline
+      "Enter the number of rounds you would like to play (1, 3, or 5).";
+    match int_of_string (read_line ()) with
+    | x when x = 1 || x = 3 || x = 5 ->
+        prompt name_lst ai_name_lst x true true true
+    | _ ->
+        print_endline "Please choose a number from 1, 3, or 5.";
+        prompt name_lst ai_name_lst rounds beg1 beg2 beg3
+    | exception Failure s ->
+        print_endline "Please enter a number. ";
+        prompt name_lst ai_name_lst rounds beg1 beg2 beg3 )
+  else if beg1 then (
+    print_endline "Enter the number of AIs you want to play with.";
+    match int_of_string (read_line ()) with
+    | ai_num ->
+        prompt name_lst
+          (sublist ai_names [] ai_num)
+          rounds true true false
+    | exception Failure s ->
+        print_endline "Please enter a number.";
+        prompt name_lst ai_name_lst rounds true false false )
+  else
+    print_endline
+      "Enter the next player's name or press enter to continue.";
+  match read_line () with
   | exception End_of_file -> ()
-  | Name name -> prompt (name :: name_lst) ai_name_lst
-  | AI ai_num -> prompt name_lst (sublist ai_names [] ai_num)
-  | Begin ->
+  | "" ->
       let name_arr = transfer_names (List.rev name_lst) in
-      let ai_name_arr = transfer_names ai_name_lst in
-      if Array.length name_arr > 0 then
-        turns 0
-          (init_state (Array.length name_arr) name_arr
-             (Array.length ai_name_arr)
-             ai_name_arr)
-      else (
+      if Array.length name_arr = 0 then (
         print_endline "Enter a player's name first before beginning!\n";
-        prompt name_lst ai_name_lst)
-  | Draw ->
-      print_endline "Cannot draw a card before the game starts!\n";
-      prompt name_lst ai_name_lst
-  | Place card ->
-      print_endline "Cannot place a card before the game starts!\n";
-      prompt name_lst ai_name_lst
-  | Sort ->
-      print_endline "Cannot sort a card before the game starts!\n";
-      prompt name_lst ai_name_lst
-  | exception Empty ->
-      print_endline
-        "Try again using the format: name player_name, and AI \
-         number_of_ai\n";
-      prompt name_lst ai_name_lst
-  | exception Malformed ->
-      print_endline
-        "Try again using the format: name player_name, and AI \
-         number_of_ai\n";
-      prompt name_lst ai_name_lst
+        prompt name_lst ai_name_lst rounds false beg2 beg3 )
+      else prompt name_lst ai_name_lst rounds true beg2 beg3
+  | name -> prompt (name :: name_lst) ai_name_lst rounds false beg2 beg3
 
 (** [main ()] begins the game. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] "\nWelcome to Uno\n";
-  prompt [] []
+  prompt [] [] 0 false false false
 
 (* Executes the game engine. *)
 let () = main ()
