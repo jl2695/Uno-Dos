@@ -4,8 +4,6 @@ type command =
   | Draw
   | Name of string
   | AI of int
-  | Begin
-  | Sort
 
 type color_command =
   | Red
