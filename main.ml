@@ -265,7 +265,7 @@ let rec turns pos st =
               in
               (* If the card has the same number or color as the pile or
                  is uncolored, then place that card. *)
-              if is_valid_card player_card deck pile then
+              if is_valid_card player_card deck pile then (
                 let next_st =
                   place_st st pos (int_of_string card_index)
                 in
@@ -279,15 +279,15 @@ let rec turns pos st =
                       (reinitialize_state st
                          (get_curr_round st + 1)
                          pos) )
-                  else
-                    print_endline
-                      ( "End of the game. Congratulations "
-                      ^ (score_sorted_people st).(Array.length people
-                                                  - 1)
-                          .name ) )
-                else turns (get_pos next_st) next_st
+                  else erase Screen;
+                  print_endline
+                    ( "End of the game. Congratulations "
+                    ^ (score_sorted_people st).(Array.length people - 1)
+                        .name ) )
+                else erase Screen;
+                turns (get_pos next_st) next_st
                 (* The card at the card index is invalid and user is
-                   prompted again. *)
+                   prompted again. *) )
               else (
                 erase Screen;
                 print_endline_centered
@@ -323,7 +323,7 @@ let rec turns pos st =
   else
     let valid_cards = ai_valid_cards st pos in
     if valid_cards = [] then (
-      print_endline
+      print_endline_centered
         ( player.name ^ " drew from the deck. Cards left: "
         ^ string_of_int deck_length );
       turns next_pos (draw_st st pos deck 1) )
