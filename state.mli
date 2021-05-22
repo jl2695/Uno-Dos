@@ -1,5 +1,13 @@
 (**current state of the game.*)
-type t
+type t = {
+  mutable people : Person.t array;
+  mutable curr_deck : Deck.t;
+  mutable card_pile : Deck.card;
+  mutable pos : int;
+  mutable game_ended : bool;
+  mutable curr_round : int;
+  mutable total_rounds : int;
+}
 
 (** [init_state num_players player_names ai_num ai_name_array
     tot_rounds] creates and initializes state for a game with

@@ -39,24 +39,14 @@ let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
   for i = 0 to p_num - 1 do
     i_state.people.(i) <-
       Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
-    i_state.curr_deck <-
-      ( match !d with
-      | [] -> raise NoMoreCards
-      | h :: t ->
-          d := t;
-          d )
+    i_state.curr_deck <- d
   done;
   for j = p_num to p_num + ai_num - 1 do
     i_state.people.(j) <-
       Person.init i_state.curr_deck
         ai_name_array.(j - p_num)
         (p_num + j) true;
-    i_state.curr_deck <-
-      ( match !d with
-      | [] -> raise Deck.NoMoreCards
-      | h :: t ->
-          d := t;
-          d )
+    i_state.curr_deck <- d
   done;
   i_state
 
