@@ -1,8 +1,6 @@
 type command =
   | Place of string
   | Draw
-  | Name of string
-  | AI of int
 
 type color_command =
   | Red
@@ -25,8 +23,6 @@ let parse str =
     | [] -> raise Empty
     | [ h; t ] when h = "place" -> Place t
     | [ h ] when h = "draw" -> Draw
-    | [ h; t ] when h = "name" -> Name t
-    | [ h; t ] when h = "AI" -> AI (int_of_string t)
     | h :: t -> raise Malformed
 
 let parse_colors color =

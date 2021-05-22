@@ -80,7 +80,7 @@ let rec special_cards acc (tp_list : ctype list) =
   | h :: t -> special_cards (special_helper acc h) t
 
 (** [repeat f n t_list deck c_list] repeatedly applies the function [f]
-    [n] times. It's type is made for the function special_color which
+    [n] times. Its type is made for the function special_color which
     adds the special cards that have colors to the deck. *)
 let rec repeat f n t_list deck c_list =
   if n = 0 then deck
@@ -105,7 +105,7 @@ let add_special deck =
 (** [add_special_dos] adds the special cards to [deck] - both with and
     without color for the dos deck. *)
 let add_special_dos deck =
-  repeat' special_cards 3
+  repeat' special_cards 12
     (repeat special_color 2 [ WildNum ] deck
        [ Red; Yellow; Blue; Green ])
     [ WildDos ]
@@ -115,10 +115,10 @@ let add_special_dos deck =
 let compare_cards p1 p2 =
   if snd p1 = snd p2 then 0 else if snd p1 > snd p2 then 1 else -1
 
-(** [init ()] initialises the deck with 80 normal cards numbered from 0
-    to 9 with 2 of each color, 8 skip cards with 2 of each color, 8
-    reverse cards with 2 of each color, 8 draw two cards with 2 of each
-    color, 4 wild cards and 4 draw four cards.*)
+(** [init ()] initialises the uno deck with 80 normal cards numbered
+    from 0 to 9 with 2 of each color, 8 skip cards with 2 of each color,
+    8 reverse cards with 2 of each color, 8 draw two cards with 2 of
+    each color, 4 wild cards and 4 draw four cards.*)
 let init () =
   let deck =
     add_special (normal_cards [] [ Red; Yellow; Blue; Green ])
@@ -130,15 +130,26 @@ let init () =
   |> List.map (fun (x, y) -> x)
   |> ref
 
-let remove_twos deck = List.filter (fun x -> x.number <> Some 2) deck
+let remove_zeros_and_twos deck =
+  List.filter (fun x -> x.number <> Some 2 && x.number <> Some 0) deck
+
+let rec normal_cards_dos acc = function
+  | [] -> acc
+  | h :: t ->
+      normal_color_helper h [] [ 1; 3; 4; 5; 10; 10 ]
+      @ normal_cards_dos acc t
+
+let adjust_normal_dos deck =
+  normal_cards_dos deck [ Red; Yellow; Blue; Green ]
 
 let init_dos () =
   let deck =
-    add_special_dos (normal_cards [] [ Red; Yellow; Blue; Green ])
+    normal_cards [] [ Red; Yellow; Blue; Green ]
+    |> remove_zeros_and_twos |> adjust_normal_dos |> add_special_dos
   in
   Random.self_init ();
   deck
   |> List.map (fun x -> (x, Random.int 50))
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)
-  |> remove_twos |> ref
+  |> ref
