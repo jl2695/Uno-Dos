@@ -6,7 +6,8 @@ type t
     creates and initializes state for a game with [num_players] human
     players and [ai_num] AI players. The total_rounds field for the
     state it returns is set to [tot_rounds]. *)
-val init_state : int -> string array -> int -> string array -> int -> t
+val init_state :
+  int -> string array -> int -> string array -> int -> bool -> t
 
 val reinitialize_state : t -> int -> int -> t
 

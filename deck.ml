@@ -11,6 +11,8 @@ type ctype =
   | DrawTwo
   | Wild
   | DrawFour
+  | WildDos
+  | WildNum
 
 type card = {
   number : int option;
@@ -100,6 +102,14 @@ let add_special deck =
        [ Red; Yellow; Blue; Green ])
     [ DrawFour; Wild ]
 
+(** [add_special_dos] adds the special cards to [deck] - both with and
+    without color for the dos deck. *)
+let add_special_dos deck =
+  repeat' special_cards 3
+    (repeat special_color 2 [ WildNum ] deck
+       [ Red; Yellow; Blue; Green ])
+    [ WildDos ]
+
 (** [compare_cards p1 p2] compares the randomly generated integer values
     of two cards and is used to shuffle the cards. *)
 let compare_cards p1 p2 =
@@ -119,3 +129,16 @@ let init () =
   |> List.sort compare_cards
   |> List.map (fun (x, y) -> x)
   |> ref
+
+let remove_twos deck = List.filter (fun x -> x.number <> Some 2) deck
+
+let init_dos () =
+  let deck =
+    add_special_dos (normal_cards [] [ Red; Yellow; Blue; Green ])
+  in
+  Random.self_init ();
+  deck
+  |> List.map (fun x -> (x, Random.int 50))
+  |> List.sort compare_cards
+  |> List.map (fun (x, y) -> x)
+  |> remove_twos |> ref

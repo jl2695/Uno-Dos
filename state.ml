@@ -6,6 +6,7 @@ type t = {
   mutable people : Person.t array;
   mutable curr_deck : Deck.t;
   mutable card_pile : Deck.card;
+  mutable dos_pile : Deck.card;
   mutable pos : int;
   mutable game_ended : bool;
   mutable curr_round : int;
@@ -13,7 +14,7 @@ type t = {
 }
 
 (** Take in arrays of names *)
-let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
+let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
   let dummy_person =
     {
       Person.hand = [];
@@ -24,12 +25,13 @@ let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
       difficulty = None;
     }
   in
-  let d = Deck.init () in
+  let d = if dos then Deck.init_dos () else Deck.init () in
   let i_state =
     {
       people = Array.make (p_num + ai_num) dummy_person;
       curr_deck = d;
       card_pile = { number = None; color = None; ctype = Normal };
+      dos_pile = { number = None; color = None; ctype = Normal };
       pos = 0;
       game_ended = false;
       curr_round = 1;
@@ -239,7 +241,17 @@ let place_st st pos card_index =
           st.pos <- next_pos;
           if st.people.(pos).ai = true then
             ai_color (rand_choose_color ()) st true
-          else enter_color st true)
+          else enter_color st true
+      | WildDos ->
+          st.people.(pos).hand <- new_hand;
+          st.pos <- next_pos;
+          st.card_pile <- card;
+          st
+      | WildNum ->
+          st.people.(pos).hand <- new_hand;
+          st.pos <- next_pos;
+          st.card_pile <- card;
+          st)
 
 let get_people s = s.people
 

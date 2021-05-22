@@ -17,6 +17,8 @@ type ctype =
   | DrawTwo
   | Wild
   | DrawFour
+  | WildDos
+  | WildNum
 
 (**exception to be thrown when a user attempts to draw from an empty
    deck.*)
@@ -36,3 +38,7 @@ type t = card list ref
 (** [init] is the initial state of the deck. The card order is
     randomized everytime the game resets. *)
 val init : unit -> t
+
+(** [init_dos] is the initial state of the deck while playing dos. The
+    card order is randomized everytime the game resets. *)
+val init_dos : unit -> t
