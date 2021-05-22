@@ -10,10 +10,12 @@ type t = {
 }
 
 (** [init_state num_players player_names ai_num ai_name_array
-    tot_rounds] creates and initializes state for a game with
-    [num_players] human players and [ai_num] AI players. The
-    total_rounds field for the state it returns is set to [tot_rounds]. *)
-val init_state : int -> string array -> int -> string array -> int -> t
+    tot_rounds]
+    creates and initializes state for a game with [num_players] human
+    players and [ai_num] AI players. The total_rounds field for the
+    state it returns is set to [tot_rounds]. *)
+val init_state :
+  int -> string array -> int -> string array -> int -> bool -> t
 
 val reinitialize_state : t -> int -> int -> t
 
@@ -59,6 +61,3 @@ val draw_st : t -> int -> Deck.card list ref -> int -> t
 (** [place_st state player_number card_index] remove the card at
     [card_index] from the players hand and place it on the card pile.*)
 val place_st : t -> int -> int -> t
-
-(**[sort_st state player_number] sort the hand of the player.*)
-val sort_st : t -> int -> t

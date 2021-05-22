@@ -6,6 +6,7 @@ type t = {
   mutable people : Person.t array;
   mutable curr_deck : Deck.t;
   mutable card_pile : Deck.card;
+  mutable dos_pile : Deck.card;
   mutable pos : int;
   mutable game_ended : bool;
   mutable curr_round : int;
@@ -13,7 +14,7 @@ type t = {
 }
 
 (** Take in arrays of names *)
-let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
+let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
   let dummy_person =
     {
       Person.hand = [];
@@ -24,12 +25,13 @@ let init_state p_num p_name_array ai_num ai_name_array tot_rounds =
       difficulty = None;
     }
   in
-  let d = Deck.init () in
+  let d = if dos then Deck.init_dos () else Deck.init () in
   let i_state =
     {
       people = Array.make (p_num + ai_num) dummy_person;
       curr_deck = d;
       card_pile = { number = None; color = None; ctype = Normal };
+      dos_pile = { number = None; color = None; ctype = Normal };
       pos = 0;
       game_ended = false;
       curr_round = 1;
@@ -79,6 +81,7 @@ let rec draw_st st pos d n =
         let old = st.people.(pos).hand in
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
+        Person.sort_hand st.people.(pos);
         draw_st st pos st.curr_deck (n - 1) )
   else st
 
@@ -105,12 +108,28 @@ let yellow_wild = { number = None; color = Some Yellow; ctype = Wild }
 
 let blue_wild = { number = None; color = Some Blue; ctype = Wild }
 
+let size = ANSITerminal.size ()
+
+let width = fst size
+
+let height = snd size
+
+let center_cursor str =
+  let len = String.length str in
+  let center = width / 2 in
+  ANSITerminal.set_cursor (center - (len / 2)) height
+
+let print_endline_centered str =
+  center_cursor str;
+  print_endline str
+
 let prompt_color () =
-  print_endline
+  print_endline_centered
     "Choose the next color of play (red, yellow, blue, or green)."
 
 let rec enter_color st wild =
   prompt_color ();
+  ANSITerminal.set_cursor ((width / 2) - 8) height;
   print_string "> ";
   match parse_colors (read_line ()) with
   | Red ->
@@ -129,10 +148,10 @@ let rec enter_color st wild =
       else st.card_pile <- green_d4;
       st
   | exception Empty ->
-      print_endline "Please enter a color!";
+      print_endline_centered "Please enter a color!";
       enter_color st wild
   | exception Malformed ->
-      print_endline "Please enter a color!";
+      print_endline_centered "Please enter a color!";
       enter_color st wild
 
 let ai_color color st wild =
@@ -211,11 +230,17 @@ let place_st st pos card_index =
           st.pos <- next_pos;
           if st.people.(pos).ai = true then
             ai_color (rand_choose_color ()) st true
-          else enter_color st true )
-
-let sort_st st pos =
-  Person.sort_hand st.people.(pos);
-  st
+          else enter_color st true
+      | WildDos ->
+          st.people.(pos).hand <- new_hand;
+          st.pos <- next_pos;
+          st.card_pile <- card;
+          st
+      | WildNum ->
+          st.people.(pos).hand <- new_hand;
+          st.pos <- next_pos;
+          st.card_pile <- card;
+          st )
 
 let get_people s = s.people
 
