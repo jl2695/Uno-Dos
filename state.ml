@@ -57,10 +57,11 @@ let reinitialize_state st next_round winner_pos =
   st.curr_round <- next_round;
   st.people.(winner_pos).score <- st.people.(winner_pos).score + 1;
   st.curr_deck <- d;
+  st.game_ended <- false;
   for i = 0 to Array.length st.people - 1 do
     let player = st.people.(i) in
     player.hand <- [];
-    for i = 1 to 1 do
+    for i = 1 to 7 do
       Person.draw player d;
       st.curr_deck <-
         ( match !d with
