@@ -16,14 +16,7 @@ type t = {
 (** Take in arrays of names *)
 let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
   let dummy_person =
-    {
-      Person.hand = [];
-      name = "";
-      position = 0;
-      score = 0;
-      ai = false;
-      difficulty = None;
-    }
+    { Person.hand = []; name = ""; position = 0; score = 0; ai = false }
   in
   let d = if dos then Deck.init_dos () else Deck.init () in
   let i_state =

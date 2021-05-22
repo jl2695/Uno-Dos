@@ -4,7 +4,6 @@ type t = {
   mutable position : int;
   mutable score : int;
   ai : bool;
-  difficulty : string option;
 }
 
 let draw (person : t) (d : Deck.t) =
@@ -17,30 +16,16 @@ let draw (person : t) (d : Deck.t) =
 let init (d : Deck.t) n pos ai =
   if ai = false then (
     let player =
-      {
-        hand = [];
-        name = n;
-        position = pos;
-        score = 0;
-        ai = false;
-        difficulty = None;
-      }
+      { hand = []; name = n; position = pos; score = 0; ai = false }
     in
     for i = 1 to 7 do
       draw player d;
       match !d with [] -> raise Deck.NoMoreCards | h :: t -> d := t
     done;
-    player)
+    player )
   else
     let player =
-      {
-        hand = [];
-        name = n;
-        position = pos;
-        score = 0;
-        ai = true;
-        difficulty = Some "easy";
-      }
+      { hand = []; name = n; position = pos; score = 0; ai = true }
     in
     for i = 1 to 7 do
       draw player d;

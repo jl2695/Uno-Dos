@@ -1,4 +1,5 @@
 (**current state of the game.*)
+
 type t = {
   mutable people : Person.t array;
   mutable curr_deck : Deck.t;

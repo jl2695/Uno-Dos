@@ -2,8 +2,6 @@
 type command =
   | Place of string
   | Draw
-  | Name of string
-  | AI of int
 
 type color_command =
   | Red

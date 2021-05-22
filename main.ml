@@ -333,8 +333,6 @@ let rec turns pos st =
               "That isn't a valid command! Either place or draw a card.\n";
             turns pos st )
     (* Covering all match cases *)
-    | AI n -> turns pos st
-    | Name n -> turns pos st
     | exception Malformed ->
         erase Screen;
         print_endline_centered
@@ -478,8 +476,6 @@ let rec dos_turns pos st =
               "That isn't a valid command! Either place or draw a card.\n";
             turns pos st )
     (* Covering all match cases *)
-    | AI n -> turns pos st
-    | Name n -> turns pos st
     | exception Malformed ->
         erase Screen;
         print_endline_centered

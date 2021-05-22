@@ -1,4 +1,4 @@
-(** CS 3110 Spring 2021 Final Project MS1
+(** CS 3110 Spring 2021 Final Project
 
     @author James Liang (jl2695) @author Akimasa Ihara (ai239)
     @author Alden Choe (ahc252)*)
