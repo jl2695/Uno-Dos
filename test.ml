@@ -224,23 +224,3 @@ let suite =
          [ init_tests_uno; parse_tests; init_tests_dos; draw_tests ]
 
 let _ = run_test_tt_main suite
-
-let rec print () hnd =
-  match hnd with
-  | [] -> print_string "no more"
-  | h :: t -> (
-      match h.number with
-      | Some h ->
-          print_int h;
-          print () t
-      | None -> print_string "yo mama" )
-
-(* let print_main () = print () (get_people (init_state 3 [| "James";
-   "Aki"; "Alden" |])).(1).hand
-
-   let rec print2 () = print_string (get_people (init_state 3 [|
-   "James"; "Aki"; "Alden" |])).(0).name; print_string (get_people
-   (init_state 3 [| "James"; "Aki"; "Alden" |])).(1).name; print_string
-   (get_people (init_state 3 [| "James"; "Aki"; "Alden" |])).(2).name *)
-
-(* let print2 () = print_int (get_people (init_state 10)).(0).position *)
