@@ -1,6 +1,7 @@
 type command =
   | Place of string
   | Draw
+  | PlaceDos
 
 type color_command =
   | Red
@@ -23,6 +24,7 @@ let parse str =
     | [] -> raise Empty
     | [ h; t ] when h = "place" -> Place t
     | [ h ] when h = "draw" -> Draw
+    | [ h ] when h = "place" -> PlaceDos
     | h :: t -> raise Malformed
 
 let parse_colors color =
