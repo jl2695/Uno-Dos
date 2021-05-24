@@ -14,12 +14,12 @@ type t = {
 }
 
 (** Take in arrays of names *)
-let draw d =
+let rec draw d =
   match !d with
   | [] -> raise NoMoreCards
   | h :: t ->
       d := t;
-      h
+      if h.number = None then draw d else h
 
 let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
   let dummy_person =
@@ -101,13 +101,6 @@ let rec draw_st st pos d n =
         Person.sort_hand st.people.(pos);
         draw_st st pos st.curr_deck (n - 1) )
   else st
-
-(** [remove_ele n res] removes the nth element from res.*)
-let rec remove_ele n res = function
-  | [] -> res
-  | h :: t ->
-      if n <> 0 then remove_ele (n - 1) (h :: res) t
-      else remove_ele (n - 1) res t
 
 let red_d4 = { number = None; color = Some Red; ctype = DrawFour }
 
@@ -198,6 +191,13 @@ let rand_choose_color () =
   | 2 -> "blue"
   | 3 -> "yellow"
   | _ -> "green"
+
+(** [remove_ele n res hand] removes the nth element from hand.*)
+let rec remove_ele n res = function
+  | [] -> res
+  | h :: t ->
+      if n <> 0 then remove_ele (n - 1) (h :: res) t
+      else remove_ele (n - 1) res t
 
 (** [place_st st pos card_index] places the card at [card_index] from
     the player at position [pos] and updates the state [st].*)
@@ -298,7 +298,16 @@ let place_st_dos_single st pos card_index mch_pile =
       if new_hand = [] then st.game_ended <- true;
       st.people.(pos).hand <- new_hand;
       st.pos <- next_pos;
-      if mch_pile = 1 then st.card_pile <- new_card
+      let card_number =
+        (List.nth st.people.(pos).hand card_index).number
+      in
+      if
+        card_number = Some 9
+        && st.card_pile.number = Some 6
+        && mch_pile = 1
+        || (st.dos_pile.number = Some 6 && mch_pile = 2)
+      then print_string "\nNice!"
+      else if mch_pile = 1 then st.card_pile <- new_card
       else st.dos_pile <- new_card;
       st
 
@@ -321,8 +330,9 @@ let place_st_dos_double st pos grp_idx grps mch_pile =
         List.rev (remove_ele fst_idx [] st.people.(pos).hand)
       in
       (* Remove the second card from the player hand *)
-      let new_hand = List.rev (remove_ele snd_idx [] removed_first) in
-      assert (List.length new_hand <> 0);
+      let new_hand =
+        List.rev (remove_ele (snd_idx - 1) [] removed_first)
+      in
       if new_hand = [] then st.game_ended <- true;
       st.people.(pos).hand <- new_hand;
       st.pos <- next_pos;

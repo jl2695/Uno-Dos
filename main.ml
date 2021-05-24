@@ -115,6 +115,7 @@ let is_valid_card card deck pile =
   || (pile.ctype = Reverse && card.ctype = Reverse)
   || (pile.ctype = Skip && card.ctype = Skip)
   || (pile.ctype = DrawTwo && card.ctype = DrawTwo)
+  || (pile.number = Some 6 && card.number = Some 9)
 
 let is_valid_dos card deck p1 p2 =
   (p1.number != None && p1.number = card.number)
@@ -657,10 +658,9 @@ let rec dos_turns pos st =
                 else
                   (****** START DOUBLE MATCH ********)
                   let hand_length = List.length player.hand - 1 in
-
                   if
                     idx > hand_length
-                    && idx < hand_length + List.length grps
+                    && idx <= hand_length + List.length grps
                   then
                     let grp_idx = idx - List.length player.hand in
                     let next_st =

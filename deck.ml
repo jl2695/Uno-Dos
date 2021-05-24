@@ -79,6 +79,15 @@ let rec special_cards acc (tp_list : ctype list) =
   | [] -> acc
   | h :: t -> special_cards (special_helper acc h) t
 
+let dos_helper deck tp =
+  let dos_card = { number = Some 2; color = None; ctype = tp } in
+  dos_card :: deck
+
+let rec dos_cards acc (tp_list : ctype list) =
+  match tp_list with
+  | [] -> acc
+  | h :: t -> dos_cards (dos_helper acc h) t
+
 (** [repeat f n t_list deck c_list] repeatedly applies the function [f]
     [n] times. Its type is made for the function special_color which
     adds the special cards that have colors to the deck. *)
@@ -105,7 +114,7 @@ let add_special deck =
 (** [add_special_dos] adds the special cards to [deck] - both with and
     without color for the dos deck. *)
 let add_special_dos deck =
-  repeat' special_cards 12
+  repeat' dos_cards 12
     (repeat special_color 2 [ WildNum ] deck
        [ Red; Yellow; Blue; Green ])
     [ WildDos ]
