@@ -55,11 +55,11 @@ let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
       Person.init i_state.curr_deck p_name_array.(i) (i + 1) false;
     Person.sort_hand i_state.people.(i + 1);
     i_state.curr_deck <-
-      (match !d with
+      ( match !d with
       | [] -> raise NoMoreCards
       | h :: t ->
           d := t;
-          d)
+          d )
   done;
   for j = p_num to p_num + ai_num - 1 do
     i_state.people.(j) <-
@@ -67,11 +67,11 @@ let init_state p_num p_name_array ai_num ai_name_array tot_rounds dos =
         ai_name_array.(j - p_num)
         (p_num + j) true;
     i_state.curr_deck <-
-      (match !d with
+      ( match !d with
       | [] -> raise Deck.NoMoreCards
       | h :: t ->
           d := t;
-          d)
+          d )
   done;
   i_state
 
@@ -87,14 +87,15 @@ let reinitialize_state st next_round winner_pos =
     for i = 1 to 7 do
       Person.draw player d;
       st.curr_deck <-
-        (match !d with
+        ( match !d with
         | [] -> raise Deck.NoMoreCards
         | h :: t ->
             d := t;
-            d)
+            d )
     done
   done;
   st.card_pile <- { number = None; color = None; ctype = Normal };
+  st.dos_pile <- { number = None; color = None; ctype = Normal };
   st
 
 let rec draw_st st pos d n =
@@ -106,7 +107,7 @@ let rec draw_st st pos d n =
         st.people.(pos).hand <- old @ [ h ];
         st.curr_deck <- ref t;
         Person.sort_hand st.people.(pos);
-        draw_st st pos st.curr_deck (n - 1))
+        draw_st st pos st.curr_deck (n - 1) )
   else st
 
 (** [remove_ele n res] removes the nth element from res.*)
@@ -264,7 +265,7 @@ let place_st st pos card_index =
           st.people.(pos).hand <- new_hand;
           st.pos <- next_pos;
           st.card_pile <- card;
-          st)
+          st )
 
 let get_people s = s.people
 

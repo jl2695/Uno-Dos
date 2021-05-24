@@ -2,6 +2,7 @@
 type command =
   | Place of string
   | Draw
+  | PlaceDos
 
 type color_command =
   | Red
