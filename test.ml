@@ -135,13 +135,7 @@ let init_tests_uno =
       bas_init_st.people.(0).ai false;
     simple_test_int "initial state fields curr_deck"
       (List.length !(bas_init_st.curr_deck))
-      91;
-    simple_test "initial state fields pile" bas_init_st.card_pile.number
-      None;
-    simple_test "initial state fields pile" bas_init_st.card_pile.color
-      None;
-    simple_test "initial state fields pile" bas_init_st.card_pile.ctype
-      Normal;
+      90;
     simple_test_int "initial state fields pos" bas_init_st.pos 0;
     simple_test "initial state fields game_ended" bas_init_st.game_ended
       false;
@@ -155,6 +149,7 @@ let parse_tests =
   [
     simple_test "parse place" (parse " place   0") (Place "0");
     simple_test "parse draw" (parse " draw") Draw;
+    simple_test "parse palce for dos" (parse "place") PlaceDos;
     exc_test "parse invalid command"
       (fun () -> parse " draw 0")
       Malformed;
@@ -171,13 +166,13 @@ let draw_tests =
       8;
     simple_test_int "deck size after drawing once"
       (List.length !(draw_one_aki_st.curr_deck))
-      83;
+      82;
     simple_test_int "draw two alden"
       (List.length draw_two_alden_st.people.(2).hand)
       9;
     simple_test_int "deck size after drawing twice"
       (List.length !(draw_two_alden_st.curr_deck))
-      82;
+      81;
   ]
 
 let init_tests_dos =
@@ -204,6 +199,9 @@ let init_tests_dos =
     simple_test_int "number of tens"
       (num_checker (Some 10) !(Deck.init_dos ()))
       8;
+    simple_test_int "number of elevens"
+      (num_checker (Some 11) !(Deck.init_dos ()))
+      0;
     simple_test_int "number of blues"
       (color_number_checker (Some Blue) !(Deck.init_dos ()))
       24;
@@ -224,23 +222,3 @@ let suite =
          [ init_tests_uno; parse_tests; init_tests_dos; draw_tests ]
 
 let _ = run_test_tt_main suite
-
-let rec print () hnd =
-  match hnd with
-  | [] -> print_string "no more"
-  | h :: t -> (
-      match h.number with
-      | Some h ->
-          print_int h;
-          print () t
-      | None -> print_string "yo mama" )
-
-(* let print_main () = print () (get_people (init_state 3 [| "James";
-   "Aki"; "Alden" |])).(1).hand
-
-   let rec print2 () = print_string (get_people (init_state 3 [|
-   "James"; "Aki"; "Alden" |])).(0).name; print_string (get_people
-   (init_state 3 [| "James"; "Aki"; "Alden" |])).(1).name; print_string
-   (get_people (init_state 3 [| "James"; "Aki"; "Alden" |])).(2).name *)
-
-(* let print2 () = print_int (get_people (init_state 10)).(0).position *)

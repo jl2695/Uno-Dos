@@ -157,6 +157,11 @@ let print_reds str =
     [ ANSITerminal.on_red; ANSITerminal.yellow ]
     str
 
+let print_blues str =
+  ANSITerminal.print_string
+    [ ANSITerminal.on_cyan; ANSITerminal.yellow ]
+    str
+
 (** [print_cards hand] prints the cards in [hand] with a red outline and
     no letters or numbers. *)
 let rec print_cards hand =
@@ -166,6 +171,14 @@ let rec print_cards hand =
       print_reds "UNO";
       print_string " ";
       print_cards t
+
+let rec print_dos_cards hand =
+  match hand with
+  | [] -> print_string "\n"
+  | h :: t ->
+      print_blues "DOS";
+      print_string " ";
+      print_dos_cards t
 
 let size = ANSITerminal.size ()
 
@@ -199,7 +212,7 @@ let end_game st pos =
 
 (** [print_other_players_hands pos st init_pos] prints the hands of
     every player except for the player at position [init_pos] *)
-let rec print_other_players_hands pos st init_pos =
+let rec print_other_players_hands pos st init_pos dos =
   let people = get_people st in
   let player = people.(pos) in
   let num_players = Array.length people in
@@ -208,9 +221,10 @@ let rec print_other_players_hands pos st init_pos =
   if pos <> init_pos then (
     print_centered hand_description;
     center_cursor (String.make (4 * List.length player.hand) ' ');
-    print_cards player.hand;
+    if not dos then print_cards player.hand
+    else print_dos_cards player.hand;
     print_newline ();
-    print_other_players_hands next_pos st init_pos )
+    print_other_players_hands next_pos st init_pos dos )
   else ()
 
 let check_empty_pile st prev_player_pos =
@@ -218,6 +232,13 @@ let check_empty_pile st prev_player_pos =
   print_centered "The last card placed was ";
   print_pile pile;
   print_newline ()
+
+let game_over () =
+  erase Screen;
+  center_cursor "GAMEOVER - DECK IS OUT OF CARDS";
+  ANSITerminal.print_string [ ANSITerminal.red ]
+    "GAMEOVER - DECK IS OUT OF CARDS \n";
+  exit 0
 
 (** [turns pos st] operates the turns of the game by prompting the
     player in position [pos] to perform an action either "draw", "place
@@ -236,7 +257,7 @@ let rec turns pos st =
     if pos - 1 >= 0 then (pos - 1) mod num_players else num_players - 1
   in
   if not player.ai then (
-    print_other_players_hands next_pos st pos;
+    print_other_players_hands next_pos st pos false;
     let player_prompt =
       "It's " ^ player.name ^ "'s turn. Place a card or draw a card."
     in
@@ -251,11 +272,12 @@ let rec turns pos st =
     ANSITerminal.set_cursor ((width / 2) - 8) height;
     print_string "> ";
     match parse (read_line ()) with
-    | Draw ->
+    | Draw -> (
         erase ANSITerminal.Screen;
         print_endline_centered
           ("Cards left in the deck: " ^ string_of_int deck_length);
-        turns next_pos (draw_st st pos deck 1)
+        try turns next_pos (draw_st st pos deck 1)
+        with NoMoreCards -> game_over () )
     | Place card_index -> (
         match int_of_string card_index with
         | idx ->
@@ -281,7 +303,7 @@ let rec turns pos st =
                         turns pos
                           (reinitialize_state st
                              (get_curr_round st + 1)
-                             pos) )
+                             pos false) )
                   else (
                     erase Screen;
                     let winner =
@@ -338,7 +360,8 @@ let rec turns pos st =
       print_endline_centered
         ( player.name ^ " drew from the deck. Cards left: "
         ^ string_of_int deck_length );
-      turns next_pos (draw_st st pos deck 1) )
+      try turns next_pos (draw_st st pos deck 1)
+      with NoMoreCards -> game_over () )
     else
       let next_st = place_st st pos (List.hd valid_cards) in
 
@@ -355,7 +378,9 @@ let rec turns pos st =
           | _ ->
               erase Screen;
               turns pos
-                (reinitialize_state st (get_curr_round st + 1) pos) )
+                (reinitialize_state st
+                   (get_curr_round st + 1)
+                   pos false) )
         else
           let victory_msg = "End of the game." in
           center_cursor victory_msg;
@@ -503,22 +528,24 @@ let print_card card =
       | None -> () )
   | _ -> print_string " "
 
-let print_group grp =
+let print_group grp idx =
   let first = fst (List.hd grp) in
   let second = fst (List.hd (List.rev grp)) in
-  print_string "(";
+  print_string (string_of_int idx ^ ": ");
+  print_string "( ";
   print_card first;
   print_card second;
   print_string ")"
 
 (** [print_groups grps] prints out each element of a group of two
     obtained from the list of groups from group_hand *)
-let rec print_groups grps =
+let rec print_groups grps h_length =
   match grps with
   | [] -> ()
   | h :: t ->
-      print_group h;
-      print_groups t
+      print_group h h_length;
+      print_groups t (h_length + 1);
+      print_string "\n"
 
 let rec dos_turns pos st =
   let people = get_people st in
@@ -528,7 +555,7 @@ let rec dos_turns pos st =
   let num_players = Array.length people in
   let next_pos = (pos + 1) mod num_players in
   if not player.ai then (
-    print_other_players_hands next_pos st pos;
+    print_other_players_hands next_pos st pos true;
     print_dos_piles st;
     print_endline_centered (player.name ^ "'s hand:");
     center_cursor (String.make (4 * List.length player.hand) ' ');
@@ -539,12 +566,15 @@ let rec dos_turns pos st =
          a card, type place."
     in
     print_endline_centered player_prompt;
+    ANSITerminal.set_cursor ((width / 2) - 8) height;
+    print_string "> ";
     match parse (read_line ()) with
-    | Draw ->
+    | Draw -> (
         erase ANSITerminal.Screen;
         print_endline_centered
           ("Cards left in the deck: " ^ string_of_int deck_length);
-        dos_turns next_pos (draw_st st pos deck 1)
+        try dos_turns next_pos (draw_st st pos deck 1)
+        with NoMoreCards -> game_over () )
     | Place _ ->
         print_endline_centered
           "Invalid command for Dos. Please just type place if you \
@@ -554,6 +584,7 @@ let rec dos_turns pos st =
         print_centered
           "Which pile would you like to match with? (1 or 2) ";
         let mch_pile = match_pile () in
+        erase Screen;
         ANSITerminal.set_cursor ((width / 2) - 8) height;
         print_string "> ";
         let pile =
@@ -568,9 +599,12 @@ let rec dos_turns pos st =
           "In brackets are the possible pairs of cards you can put \
            down. (If there are no brackets, there are no possible \
            pairs)";
-        print_groups grps;
+        ANSITerminal.set_cursor ((width / 2) - 8) height;
+        print_groups grps (List.length player.hand);
         print_dos_piles st;
         print_centered "Place card(s). (type 'place card_index') \n";
+        ANSITerminal.set_cursor ((width / 2) - 8) height;
+        print_string "> ";
         match parse (read_line ()) with
         | Place card_index -> (
             match int_of_string card_index with
@@ -599,7 +633,7 @@ let rec dos_turns pos st =
                             dos_turns pos
                               (reinitialize_state st
                                  (get_curr_round st + 1)
-                                 pos) )
+                                 pos true) )
                       else (
                         erase Screen;
                         let winner =
@@ -619,13 +653,9 @@ let rec dos_turns pos st =
                       dos_turns (get_pos next_st) next_st )
                     (* The card at the card index is invalid and user is
                        prompted again. *)
-                  else (
-                    erase Screen;
-                    print_endline_centered
-                      "That is an invalid card! Try again.\n";
-                    dos_turns pos st )
+                  else invalid_command pos st
                 else
-                  (******** START DOUBLE MATCH **********)
+                  (****** START DOUBLE MATCH ********)
                   let hand_length = List.length player.hand - 1 in
 
                   if
@@ -651,7 +681,7 @@ let rec dos_turns pos st =
                             dos_turns pos
                               (reinitialize_state st
                                  (get_curr_round st + 1)
-                                 pos) )
+                                 pos true) )
                       else (
                         erase Screen;
                         let winner =
@@ -667,33 +697,28 @@ let rec dos_turns pos st =
                           (victory_msg ^ "\n") );
                       exit 0 )
                     else dos_turns pos st
-            | exception Failure s ->
-                erase Screen;
-                print_endline_centered
-                  "That isn't a valid command! Either place or draw a \
-                   card.\n";
-                dos_turns pos st )
-        | _ ->
-            print_endline_centered
-              "That isn't a valid command! Please place a card.\n" )
+                  else (
+                    (* The initial card index input by the user is
+                       invalid. *)
+                    erase Screen;
+                    print_endline_centered
+                      "That card index is invalid! (either bigger than \
+                       your hand size or less than 0)\n";
+                    dos_turns pos st )
+            | exception Failure _ -> invalid_command pos st )
+        | exception _ -> invalid_command pos st
+        | _ -> invalid_command pos st )
     (* Covering all match cases *)
-    | exception Malformed ->
-        erase Screen;
-        print_endline_centered
-          "That isn't a valid command! Either place or draw a card.\n";
-        dos_turns pos st
-    | exception Empty ->
-        erase Screen;
-        print_endline_centered
-          "That isn't a valid command! Either place or draw a card.\n";
-        dos_turns pos st )
+    | exception Malformed -> invalid_command pos st
+    | exception Empty -> invalid_command pos st )
   else
     let valid_cards = ai_valid_cards st pos in
     if valid_cards = [] then (
       print_endline_centered
         ( player.name ^ " drew from the deck. Cards left: "
         ^ string_of_int deck_length );
-      dos_turns next_pos (draw_st st pos deck 1) )
+      try dos_turns next_pos (draw_st st pos deck 1)
+      with NoMoreCards -> game_over () )
     else
       let next_st = place_st st pos (List.hd valid_cards) in
       if get_game_ended next_st then (
@@ -709,7 +734,8 @@ let rec dos_turns pos st =
           | _ ->
               erase Screen;
               dos_turns pos
-                (reinitialize_state st (get_curr_round st + 1) pos) )
+                (reinitialize_state st (get_curr_round st + 1) pos true)
+          )
         else
           let victory_msg =
             "End of the game. Tough luck, we'll get em next time."
@@ -719,6 +745,12 @@ let rec dos_turns pos st =
             (victory_msg ^ "\n") );
         exit 0 )
       else dos_turns (get_pos next_st) next_st
+
+and invalid_command pos st =
+  erase Screen;
+  print_endline_centered
+    "That isn't a valid command! Either place or draw a card.\n";
+  dos_turns pos st
 
 let ai_names =
   [
@@ -749,14 +781,18 @@ let rec prompt name_lst ai_name_lst rounds beg1 beg2 beg3 =
     | exception End_of_file -> ()
     | "uno" ->
         turns 0
-          (init_state (Array.length name_arr) name_arr
-             (Array.length ai_name_arr)
-             ai_name_arr rounds false)
+          ( try
+              init_state (Array.length name_arr) name_arr
+                (Array.length ai_name_arr)
+                ai_name_arr rounds false
+            with NoMoreCards -> game_over () )
     | "dos" ->
         dos_turns 0
-          (init_state (Array.length name_arr) name_arr
-             (Array.length ai_name_arr)
-             ai_name_arr rounds true)
+          ( try
+              init_state (Array.length name_arr) name_arr
+                (Array.length ai_name_arr)
+                ai_name_arr rounds true
+            with NoMoreCards -> game_over () )
     | _ ->
         print_endline "Please enter either uno or dos.";
         prompt name_lst ai_name_lst rounds beg1 beg2 beg3 )
@@ -767,13 +803,14 @@ let rec prompt name_lst ai_name_lst rounds beg1 beg2 beg3 =
     | x when x = 1 || x = 3 || x = 5 ->
         prompt name_lst ai_name_lst x true true true
     | _ ->
-        print_endline "Please choose a number from 1, 3, or 5.";
+        print_endline "Please choose a number from 1, 3, or 5. ";
         prompt name_lst ai_name_lst rounds beg1 beg2 beg3
     | exception Failure s ->
         print_endline "Please enter a number. ";
         prompt name_lst ai_name_lst rounds beg1 beg2 beg3 )
   else if beg1 then (
-    print_endline "Enter the number of AIs you want to play with.";
+    print_endline
+      "Enter the number of AIs you want to play with. (Maximum is 7)";
     match int_of_string (read_line ()) with
     | ai_num ->
         prompt name_lst

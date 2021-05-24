@@ -18,7 +18,12 @@ type t = {
 val init_state :
   int -> string array -> int -> string array -> int -> bool -> t
 
-val reinitialize_state : t -> int -> int -> t
+(** [reinitialize_state st next_round winner_pos dos] reinitializes the
+    state of the game when the round is over. [next_round] is one added
+    to [curr_round] of [st], and the score of the player with position
+    [winner_pos] is incremented. [dos] determines whether the state to
+    be reinitialized should be uno or dos.*)
+val reinitialize_state : t -> int -> int -> bool -> t
 
 (** get the array of players for the game. *)
 val get_people : t -> Person.t array
