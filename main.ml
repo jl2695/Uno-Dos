@@ -452,17 +452,17 @@ let rec find_complement card hand pile c_idx h_idx =
         else find_complement card t pile c_idx (h_idx + 1)
       else find_complement card t pile c_idx (h_idx + 1)
 
-let rec group_hand hand pile acc idx =
+let rec group_hand hand org_hand pile acc idx =
   match hand with
   | [] -> acc
   | h :: t ->
       let comp = find_complement h t pile idx (idx + 1) in
       if comp <> [] then
         let last_idx = snd (List.hd comp) in
-        let comp_ele = List.nth hand last_idx in
+        let comp_ele = List.nth org_hand last_idx in
         let remove_comp_ele = List.filter (fun x -> x <> comp_ele) t in
-        group_hand remove_comp_ele pile (comp :: acc) (idx + 1)
-      else group_hand t pile acc (idx + 1)
+        group_hand remove_comp_ele org_hand pile (comp :: acc) (idx + 1)
+      else group_hand t org_hand pile acc (idx + 1)
 
 let rec match_pile () =
   match parse_pile (read_line ()) with
@@ -559,7 +559,7 @@ let rec dos_turns pos st =
         let pile =
           if mch_pile = 1 then get_card_pile st else get_dos_pile st
         in
-        let grps = group_hand player.hand pile [] 0 in
+        let grps = group_hand player.hand player.hand pile [] 0 in
         let hand_description = player.name ^ "'s hand: \n" in
         print_centered hand_description;
         center_cursor (String.make (4 * List.length player.hand) ' ');
