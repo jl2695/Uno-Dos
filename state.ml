@@ -318,17 +318,18 @@ let place_st_dos_double st pos grp_idx grps mch_pile =
   | h :: t ->
       let deck = get_curr_deck st in
       let new_card = draw deck in
-      (* let new_hand = List.rev (remove_ele g [] st.people.(pos).hand)
-         in *)
       let num_players = Array.length st.people in
       let next_pos = (pos + 1) mod num_players in
       let grp = List.nth grps grp_idx in
       let fst_idx = snd (List.hd grp) in
       let snd_idx = snd (List.hd (List.rev grp)) in
+      (* Remove the first card from the player hand *)
       let removed_first =
         List.rev (remove_ele fst_idx [] st.people.(pos).hand)
       in
+      (* Remove the second card from the player hand *)
       let new_hand = List.rev (remove_ele snd_idx [] removed_first) in
+      assert (List.length new_hand <> 0);
       if new_hand = [] then st.game_ended <- true;
       st.people.(pos).hand <- new_hand;
       st.pos <- next_pos;
