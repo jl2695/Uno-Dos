@@ -1,4 +1,4 @@
-(** Current state of the game.*)
+(**current state of the game.*)
 
 type t = {
   mutable people : Person.t array;

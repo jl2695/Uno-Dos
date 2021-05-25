@@ -1,0 +1,270 @@
+2021-05-25T02:19:22+00:00 MSI#00 I: Runner: sequential
+2021-05-25T02:19:22+00:00 MSI#00 I: Chooser: simple
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration suite_name = "test suite for Uno-Dos"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration cache_filename = "/home/ai239/3110/Uno-Dos/Uno-Dos/_build/oUnit-$(suite_name).cache"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration run_gc_full_major = "true"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration display = "true"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration results_style_1_X = "false"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration testdata_dir = "none"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration health_check_interval = "1."
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration verbose = "false"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration chooser = "simple"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration output_html_dir = "none"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration processes_kill_period = "5."
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration runner = "sequential"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration shards = "4"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration processes_grace_period = "5."
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration log_encoding = "utf-8"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration output_junit_file = "none"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration ci = "false"
+2021-05-25T02:19:22+00:00 MSI#00 I: Configuration output_file = "/home/ai239/3110/Uno-Dos/Uno-Dos/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:0:init of deck.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:0:init of deck is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:0:init of deck.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:1:init of deck # of red cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:1:init of deck # of red cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:1:init of deck # of red cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:2:init of deck # of blue cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:2:init of deck # of blue cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:2:init of deck # of blue cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:3:init of deck # of green cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:3:init of deck # of green cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:3:init of deck # of green cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:4:init of deck # of yellow cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:4:init of deck # of yellow cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:4:init of deck # of yellow cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:5:init of deck # of 5s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:5:init of deck # of 5s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:5:init of deck # of 5s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:6:init of deck # of 0s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:6:init of deck # of 0s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:6:init of deck # of 0s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:7:init of deck # of 10s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:7:init of deck # of 10s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:7:init of deck # of 10s.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:8:init of deck # of normal cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:8:init of deck # of normal cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:8:init of deck # of normal cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:9:init of deck # of skip cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:9:init of deck # of skip cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:9:init of deck # of skip cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:10:init of deck # of reverse cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:10:init of deck # of reverse cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:10:init of deck # of reverse cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:11:init of deck # of DrawTwo cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:11:init of deck # of DrawTwo cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:11:init of deck # of DrawTwo cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:12:init of deck # of DrawFour cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:12:init of deck # of DrawFour cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:12:init of deck # of DrawFour cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:13:init of deck # of Wild cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:13:init of deck # of Wild cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:13:init of deck # of Wild cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:14:initial state fields people.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:14:initial state fields people is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:14:initial state fields people.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:15:initial state fields people - name.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:15:initial state fields people - name is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:15:initial state fields people - name.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:16:initial state fields people - hand size.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:16:initial state fields people - hand size is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:16:initial state fields people - hand size.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:17:initial state fields people - position.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:17:initial state fields people - position is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:17:initial state fields people - position.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:18:initial state fields people - score.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:18:initial state fields people - score is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:18:initial state fields people - score.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:19:initial state fields people - ai.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:19:initial state fields people - ai is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:19:initial state fields people - ai.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:20:initial state fields pos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:20:initial state fields pos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:20:initial state fields pos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:21:initial state fields game_ended.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:21:initial state fields game_ended is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:21:initial state fields game_ended.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:22:initial state fields curr_round.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:22:initial state fields curr_round is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:22:initial state fields curr_round.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:23:initial state fields total_rounds.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:23:initial state fields total_rounds is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:23:initial state fields total_rounds.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:24:parse place.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:24:parse place is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:24:parse place.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:25:parse draw.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:25:parse draw is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:25:parse draw.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:26:parse palce for dos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:26:parse palce for dos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:26:parse palce for dos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:27:parse invalid command.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:27:parse invalid command is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:27:parse invalid command.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:28:parse colors - red.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:28:parse colors - red is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:28:parse colors - red.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:29:parse colors - blue.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:29:parse colors - blue is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:29:parse colors - blue.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:30:parse colors - yellow.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:30:parse colors - yellow is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:30:parse colors - yellow.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:31:parse colors - green.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:31:parse colors - green is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:31:parse colors - green.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:32:init of deck.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:32:init of deck is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:32:init of deck.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:33:init of deck # of normal cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:33:init of deck # of normal cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:33:init of deck # of normal cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:34:init of deck # of WildNum cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:34:init of deck # of WildNum cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:34:init of deck # of WildNum cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:35:init of deck # of WildDos cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:35:init of deck # of WildDos cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:35:init of deck # of WildDos cards.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:36:number of zeros.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:36:number of zeros is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:36:number of zeros.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:37:number of twos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:37:number of twos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:37:number of twos.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:38:number of ones.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:38:number of ones is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:38:number of ones.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:39:number of tens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:39:number of tens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:39:number of tens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:40:number of elevens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:40:number of elevens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:40:number of elevens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:41:number of blues.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:41:number of blues is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:41:number of blues.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:42:number of greens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:42:number of greens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:42:number of greens.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:43:number of reds.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:43:number of reds is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:43:number of reds.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:44:number of yellows.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:44:number of yellows is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:44:number of yellows.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:45:is_valid_card Uno 1.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:45:is_valid_card Uno 1 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:45:is_valid_card Uno 1.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:46:is_valid_card Uno 2.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:46:is_valid_card Uno 2 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:46:is_valid_card Uno 2.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:47:is_valid_card Uno 3.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:47:is_valid_card Uno 3 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:47:is_valid_card Uno 3.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:48:is_valid_card Uno 4.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:48:is_valid_card Uno 4 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:48:is_valid_card Uno 4.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:49:is_valid_card Uno 5.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:49:is_valid_card Uno 5 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:49:is_valid_card Uno 5.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:50:is_valid_card Uno 6.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:50:is_valid_card Uno 6 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:50:is_valid_card Uno 6.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:51:is_valid_card Uno 7.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:51:is_valid_card Uno 7 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:51:is_valid_card Uno 7.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:52:is_valid_card Dos 1.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:52:is_valid_card Dos 1 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:52:is_valid_card Dos 1.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:53:is_valid_card Dos 2.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:53:is_valid_card Dos 2 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:53:is_valid_card Dos 2.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:54:is_valid_card Dos 3.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:54:is_valid_card Dos 3 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:54:is_valid_card Dos 3.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:55:is_valid_card Dos 4.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:55:is_valid_card Dos 4 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:55:is_valid_card Dos 4.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:56:is_valid_card Dos 5.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:56:is_valid_card Dos 5 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:56:is_valid_card Dos 5.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:57:is_valid_card Dos 6.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:57:is_valid_card Dos 6 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:57:is_valid_card Dos 6.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:58:is_valid_card Dos 7.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:58:is_valid_card Dos 7 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:58:is_valid_card Dos 7.
+2021-05-25T02:19:22+00:00 MSI#00 I: Start test test suite for Uno-Dos:59:is_valid_card Dos 8.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:59:is_valid_card Dos 8 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: End test test suite for Uno-Dos:59:is_valid_card Dos 8.
+2021-05-25T02:19:22+00:00 MSI#00 I: ==============
+2021-05-25T02:19:22+00:00 MSI#00 I: Summary:
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:59:is_valid_card Dos 8 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:58:is_valid_card Dos 7 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:57:is_valid_card Dos 6 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:56:is_valid_card Dos 5 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:55:is_valid_card Dos 4 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:54:is_valid_card Dos 3 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:53:is_valid_card Dos 2 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:52:is_valid_card Dos 1 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:51:is_valid_card Uno 7 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:50:is_valid_card Uno 6 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:49:is_valid_card Uno 5 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:48:is_valid_card Uno 4 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:47:is_valid_card Uno 3 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:46:is_valid_card Uno 2 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:45:is_valid_card Uno 1 is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:44:number of yellows is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:43:number of reds is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:42:number of greens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:41:number of blues is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:40:number of elevens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:39:number of tens is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:38:number of ones is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:37:number of twos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:36:number of zeros is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:35:init of deck # of WildDos cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:34:init of deck # of WildNum cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:33:init of deck # of normal cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:32:init of deck is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:31:parse colors - green is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:30:parse colors - yellow is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:29:parse colors - blue is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:28:parse colors - red is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:27:parse invalid command is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:26:parse palce for dos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:25:parse draw is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:24:parse place is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:23:initial state fields total_rounds is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:22:initial state fields curr_round is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:21:initial state fields game_ended is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:20:initial state fields pos is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:19:initial state fields people - ai is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:18:initial state fields people - score is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:17:initial state fields people - position is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:16:initial state fields people - hand size is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:15:initial state fields people - name is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:14:initial state fields people is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:13:init of deck # of Wild cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:12:init of deck # of DrawFour cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:11:init of deck # of DrawTwo cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:10:init of deck # of reverse cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:9:init of deck # of skip cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:8:init of deck # of normal cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:7:init of deck # of 10s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:6:init of deck # of 0s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:5:init of deck # of 5s is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:4:init of deck # of yellow cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:3:init of deck # of green cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:2:init of deck # of blue cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:1:init of deck # of red cards is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Test test suite for Uno-Dos:0:init of deck is successful.
+2021-05-25T02:19:22+00:00 MSI#00 I: Ran: 60 tests in: 0.14 seconds.
+2021-05-25T02:19:22+00:00 MSI#00 I: Cases: 60.
+2021-05-25T02:19:22+00:00 MSI#00 I: Tried: 60.
+2021-05-25T02:19:22+00:00 MSI#00 I: Errors: 0.
+2021-05-25T02:19:22+00:00 MSI#00 I: Failures: 0.
+2021-05-25T02:19:22+00:00 MSI#00 I: Skip: 0.
+2021-05-25T02:19:22+00:00 MSI#00 I: Todo: 0.
+2021-05-25T02:19:22+00:00 MSI#00 I: Timeout: 0.
